@@ -1,7 +1,9 @@
 <script setup></script>
 
 <template>
-  <router-view></router-view>
+  <div>
+    <h2>Products</h2>
+  </div>
 </template>
 
 <style lang="scss" scoped></style>
