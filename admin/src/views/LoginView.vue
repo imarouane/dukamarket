@@ -3,7 +3,7 @@ import GuestAuthLayout from '@/components/GuestAuthLayout.vue'
 import { reactive, ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
-import TheLoader from '@/components/TheLoader.vue'
+import TheSpinner from '@/components/core/TheSpinner.vue'
 
 const router = useRouter()
 
@@ -131,7 +131,7 @@ async function login() {
             'bg-indigo-500': isLoading
           }"
         >
-          <TheLoader :loading="isLoading" />
+          <TheSpinner :loading="isLoading" />
           <span v-if="!isLoading">Sign in</span>
         </button>
       </div>

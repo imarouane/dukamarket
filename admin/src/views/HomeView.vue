@@ -1,5 +1,5 @@
 <script setup>
-import { useCounterStore } from '@/stores/counter'
+import { useCounterStore } from '@/stores/compositionapi'
 // import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
