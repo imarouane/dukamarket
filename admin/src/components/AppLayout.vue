@@ -3,6 +3,11 @@ import SidebarView from '@/components/SidebarView.vue'
 import TheHeader from '@/components/TheHeader.vue'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
+onMounted(() => {
+  window.addEventListener('resize', handleResize)
+  handleResize()
+})
+
 const isOpen = ref(true)
 
 const toggleSidebar = () => (isOpen.value = !isOpen.value)
@@ -11,18 +16,13 @@ function handleResize() {
   isOpen.value = window.innerWidth >= 1024
 }
 
-onMounted(() => {
-  window.addEventListener('resize', handleResize)
-  handleResize()
-})
-
 onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize)
 })
 </script>
 
 <template>
-  <div class="flex min-h-full items-start">
+  <div class="flex min-h-full items-start bg-gray-100">
     <!-- Sidebar -->
 
     <sidebar-view

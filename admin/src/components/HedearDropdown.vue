@@ -1,15 +1,31 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
+import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
+import { computed, onMounted } from 'vue'
+
+const userStore = useUserStore()
+const router = useRouter()
 
 const props = defineProps({
-  username: {
-    type: String
-  },
   imgUrl: {
     type: String
   }
 })
+async function logout() {
+  const { success, error } = await userStore.logout()
+  if (success) {
+    router.push({ name: 'login' })
+  } else {
+    console.error(error)
+  }
+}
+
+onMounted(async () => {
+  await userStore.getUser()
+})
+const user = computed(() => userStore.userData.value)
 </script>
 
 <template>
@@ -18,7 +34,7 @@ const props = defineProps({
       <div>
         <MenuButton class="flex items-center">
           <img :src="props.imgUrl" alt="user iamge" class="mr-4 size-10 rounded-full" />
-          <span class="font-semibold">{{ props.username }}</span>
+          <span class="font-semibold">{{ user?.name }}</span>
           <ChevronDownIcon
             class="-mr-1 ml-1 h-5 w-5 text-gray-400 hover:text-violet-100"
             aria-hidden="true"
@@ -50,6 +66,7 @@ const props = defineProps({
             </MenuItem>
             <MenuItem v-slot="{ active }">
               <button
+                @click="logout"
                 :class="[
                   active ? 'bg-indigo-100 text-gray-800' : 'text-gray-900',
                   'group flex w-full items-center rounded-md px-2 py-2 text-sm'
