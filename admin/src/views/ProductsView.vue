@@ -1,10 +1,28 @@
 <script setup>
 import TheSpinner from '@/components/core/TheSpinner.vue'
+import { PRODUCTS_PER_PAGE } from '@/constants'
 import { useProductsStore } from '@/stores/products'
-import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { onMounted, ref } from 'vue'
 
 const productsStore = useProductsStore()
-const perPage = ref(10)
+
+onMounted(() => {
+  productsStore.getProducts()
+})
+
+const perPage = ref(PRODUCTS_PER_PAGE)
+// const search = ref('')
+
+const { productsData: products, loading } = storeToRefs(productsStore)
+
+function getProductsForPage(event, link) {
+  if (!link.url || link.active) {
+    return
+  }
+
+  productsStore.getProducts(link.url)
+}
 </script>
 
 <template>
@@ -17,7 +35,7 @@ const perPage = ref(10)
     </button>
   </div>
   <div class="rounded-lg bg-white p-4 shadow">
-    <div class="flex justify-between border-b-2 pb-3">
+    <div class="flex justify-between border-b-2 border-gray-100 pb-3">
       <div class="flex items-center">
         <label class="mr-3 block whitespace-nowrap text-sm font-medium leading-6" for="pre_page">
           Per Page
@@ -43,7 +61,12 @@ const perPage = ref(10)
           placeholder="Type to search products"
         />
       </div>
-      <TheSpinner v-if="products.loading" />
+    </div>
+
+    <div class="mt-4">
+      <div v-if="loading" class="mt-4 flex items-center justify-center">
+        <TheSpinner class="text-indigo-500" />
+      </div>
       <template v-else>
         <table class="w-full table-auto">
           <thead>
@@ -56,9 +79,9 @@ const perPage = ref(10)
             </tr>
           </thead>
           <tbody>
-            <tr v-for="product in products.data" :key="product.id">
+            <tr v-for="product in products" :key="product.id">
               <td class="border-b p-2">{{ product.id }}</td>
-              <td class="max-w-48 overflow-hidden text-ellipsis whitespace-nowrap border-b p-2">
+              <td class="max-w-44 overflow-hidden text-ellipsis whitespace-nowrap border-b p-2">
                 {{ product.title }}
               </td>
               <td class="border-b p-2">
@@ -69,6 +92,36 @@ const perPage = ref(10)
             </tr>
           </tbody>
         </table>
+
+        <div class="mt-5 flex items-center justify-between">
+          <span v-if="productsStore.from"
+            >Showing from {{ productsStore.from }} to {{ productsStore.to }}</span
+          >
+
+          <nav
+            v-if="productsStore.total >= productsStore.to"
+            class="-space-x-psx relative z-0 inline-flex justify-center rounded-md shadow-sm"
+            aria-label="Pagination"
+          >
+            <button
+              v-for="(link, i) of productsStore.links"
+              :key="i"
+              :disabled="!link.url"
+              @click.prevent="getProductsForPage($event, link)"
+              :aria-current="link.active ? 'page' : ''"
+              class="relative inline-flex items-center whitespace-nowrap border px-4 py-2 text-sm font-medium"
+              :class="[
+                link.active
+                  ? 'z-10 border-indigo-500 bg-indigo-50 text-indigo-600'
+                  : 'border-gray-300 bg-white text-gray-500 hover:bg-gray-50',
+                !link.url ? 'cursor-not-allowed bg-gray-100 text-gray-700 hover:bg-white' : '',
+                i === 0 ? 'rounded-l-md' : '',
+                i === productsStore.links.length - 1 ? 'rounded-r-md' : ''
+              ]"
+              v-html="link.label"
+            ></button>
+          </nav>
+        </div>
       </template>
     </div>
   </div>

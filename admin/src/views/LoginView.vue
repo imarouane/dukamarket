@@ -131,7 +131,7 @@ async function login() {
             'bg-indigo-500': isLoading
           }"
         >
-          <TheSpinner :loading="isLoading" />
+          <TheSpinner v-if="isLoading" />
           <span v-if="!isLoading">Sign in</span>
         </button>
       </div>

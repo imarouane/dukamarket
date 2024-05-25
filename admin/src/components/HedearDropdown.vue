@@ -4,6 +4,7 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import { computed, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -25,7 +26,8 @@ async function logout() {
 onMounted(async () => {
   await userStore.getUser()
 })
-const user = computed(() => userStore.userData.value)
+// const user = computed(() => userStore.userData.value)
+const { userData: user } = storeToRefs(userStore)
 </script>
 
 <template>
@@ -34,7 +36,7 @@ const user = computed(() => userStore.userData.value)
       <div>
         <MenuButton class="flex items-center">
           <img :src="props.imgUrl" alt="user iamge" class="mr-4 size-10 rounded-full" />
-          <span class="font-semibold">{{ user?.name }}</span>
+          <span class="font-semibold">{{ user.value?.name }}</span>
           <ChevronDownIcon
             class="-mr-1 ml-1 h-5 w-5 text-gray-400 hover:text-violet-100"
             aria-hidden="true"

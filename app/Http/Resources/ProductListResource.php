@@ -20,7 +20,7 @@ class ProductListResource extends JsonResource
             'title' => $this->title,
             'image' => $this->image,
             'price' => $this->price,
-            'updated_at' => Carbon::parse($$this->updated_at)->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d H:i:s'),
         ];
     }
 }
