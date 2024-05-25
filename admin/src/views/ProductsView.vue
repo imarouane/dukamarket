@@ -8,11 +8,16 @@ import { onMounted, ref } from 'vue'
 const productsStore = useProductsStore()
 
 onMounted(() => {
-  productsStore.getProducts()
+  getProducts()
 })
 
+function getProducts(url = null) {
+  productsStore.getProducts(url, search.value, perPage.value)
+  // console.log(search.value)
+}
+
 const perPage = ref(PRODUCTS_PER_PAGE)
-// const search = ref('')
+const search = ref('')
 
 const { productsData: products, loading } = storeToRefs(productsStore)
 
@@ -21,7 +26,7 @@ function getProductsForPage(event, link) {
     return
   }
 
-  productsStore.getProducts(link.url)
+  getProducts(link.url)
 }
 </script>
 
@@ -37,12 +42,12 @@ function getProductsForPage(event, link) {
   <div class="rounded-lg bg-white p-4 shadow">
     <div class="flex justify-between border-b-2 border-gray-100 pb-3">
       <div class="flex items-center">
-        <label class="mr-3 block whitespace-nowrap text-sm font-medium leading-6" for="pre_page">
+        <label class="mr-3 block whitespace-nowrap text-sm font-medium leading-6" for="perPage">
           Per Page
         </label>
         <select
-          name="per_page"
-          id="per_page"
+          name="perPage"
+          id="perPage"
           class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
           @change="getProducts(null)"
           v-model="perPage"
@@ -56,7 +61,8 @@ function getProductsForPage(event, link) {
       <div>
         <input
           type="search"
-          @change="getProducts"
+          @change="getProducts(null)"
+          v-model="search"
           class="relative block w-56 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500"
           placeholder="Type to search products"
         />
@@ -99,7 +105,7 @@ function getProductsForPage(event, link) {
           >
 
           <nav
-            v-if="productsStore.total >= productsStore.to"
+            v-if="productsStore.total > productsStore.per_page"
             class="-space-x-psx relative z-0 inline-flex justify-center rounded-md shadow-sm"
             aria-label="Pagination"
           >
