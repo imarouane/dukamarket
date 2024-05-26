@@ -29,7 +29,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div v-if="userData.id" class="flex h-full w-full items-center justify-center bg-gray-100">
+  <div v-if="userData?.id" class="flex h-full w-full items-center justify-center bg-gray-100">
     <TheSpinner class="h-12 w-12 text-indigo-500" />
   </div>
 

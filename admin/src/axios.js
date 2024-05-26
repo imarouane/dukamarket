@@ -1,12 +1,12 @@
 import axios from 'axios'
 import router from './router'
 
-axios.defaults.withCredentials = true
-axios.defaults.withXSRFToken = true
-
 const axiosClient = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`
 })
+axios.defaults.withCredentials = true
+axios.defaults.withXSRFToken = true
+
 axiosClient.interceptors.request.use((config) => {
   const token = sessionStorage.getItem('TOKEN')
   if (token) {

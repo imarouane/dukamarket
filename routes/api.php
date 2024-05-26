@@ -24,4 +24,4 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::apiResource('/products', ProductController::class);
 });
 
-Route::post('login', [AuthController::class, 'login']);
+Route::post('login', [AuthController::class, 'login'])->middleware('guest');

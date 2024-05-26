@@ -15,14 +15,16 @@ export const useProductsStore = defineStore('product', {
     doubleCount: (state) => state.count * 2
   },
   actions: {
-    async getProducts(url = null, search = '', perPage = 10) {
+    async getProducts(url = null, search = '', perPage = 10, sort_field, sort_direction) {
       this.loading = true
       url = url || '/products'
       try {
         const { data } = await axiosClient(url, {
           params: {
             search,
-            per_page: perPage
+            per_page: perPage,
+            sort_field,
+            sort_direction
           }
         })
         this.productsData = data.data

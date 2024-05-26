@@ -4,6 +4,7 @@ import { reactive, ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import TheSpinner from '@/components/core/TheSpinner.vue'
+import BaseInput from '@/components/core/BaseInput.vue'
 
 const router = useRouter()
 
@@ -45,39 +46,10 @@ async function login() {
         {{ errorMsg }}
       </div>
       <div>
-        <label for="email" class="block text-sm font-medium leading-6 text-gray-900"
-          >Email address</label
-        >
-        <div class="mt-2">
-          <input
-            id="email"
-            name="email"
-            type="email"
-            v-model="user.email"
-            autocomplete="email"
-            required
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          />
-        </div>
+        <BaseInput label="Email address" type="email" name="email" v-model="user.email" />
       </div>
-
       <div>
-        <div class="flex items-center justify-between">
-          <label for="password" class="block text-sm font-medium leading-6 text-gray-900"
-            >Password</label
-          >
-        </div>
-        <div class="mt-2">
-          <input
-            id="password"
-            name="password"
-            type="password"
-            v-model="user.password"
-            autocomplete="current-password"
-            required
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          />
-        </div>
+        <BaseInput label="password" type="password" name="password" v-model="user.password" />
       </div>
       <div class="flex items-center justify-between">
         <div class="flex items-start">
@@ -125,7 +97,7 @@ async function login() {
         <button
           type="submit"
           :disabled="isLoading"
-          class="flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          class="flex w-full items-center justify-center gap-2 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           :class="{
             'cursor-not-allowed': isLoading,
             'bg-indigo-500': isLoading
