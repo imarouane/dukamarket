@@ -35,12 +35,31 @@ export const useProductsStore = defineStore('product', {
         this.current_page = meta.current_page
         this.per_page = meta.per_page
         this.total = meta.total
-        // console.log(data)
       } catch (error) {
         console.error(error)
       } finally {
         this.loading = false
       }
+    },
+    async createProduct(product) {
+      if (product.image instanceof File) {
+        const formData = new FormData()
+        formData.append('title', product.title)
+        formData.append('image', product.image)
+        formData.append('description', product.description)
+        formData.append('price', product.price)
+
+        product = formData
+      }
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+
+      return await axiosClient.post('/products', product, config)
+
+      // console.log(response)
     }
   }
 })

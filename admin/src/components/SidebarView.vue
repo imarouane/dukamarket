@@ -30,11 +30,11 @@ function handleEmit() {
   >
     <div
       v-if="props.isSidebarOpen"
-      class="absolute left-0 top-0 -z-[9999] h-full w-screen bg-black/30 lg:w-0"
+      class="absolute left-0 top-0 -z-[9999] h-full w-screen bg-black/25 lg:w-0"
       @click="$emit('closeSidebar')"
     >
       <button
-        class="absolute right-4 top-1 rounded-lg bg-indigo-700 p-2 text-white hover:bg-indigo-600"
+        class="absolute right-6 top-1 rounded-lg bg-indigo-700 p-2 text-white hover:bg-indigo-600"
       >
         <XMarkIcon class="size-9" />
       </button>

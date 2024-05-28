@@ -1,28 +1,76 @@
 <script setup>
 import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
 import BaseInput from '@/components/core/BaseInput.vue'
+import BaseInputFile from '@/components/core/BaseInputFile.vue'
+import BaseTextarea from '@/components/core/BaseTextarea.vue'
 import { ref } from 'vue'
+import { useProductsStore } from '@/stores/products'
+import TheSpinner from '../core/TheSpinner.vue'
 
-const loading = ref(false)
+const productStore = useProductsStore()
+
 const isVisible = defineModel()
+const loading = ref(false)
 
-// const props = defineProps({
-//   product: {
-//     type: Object,
-//     required: true
-//   }
-// })
-const input = ref('')
-// const product = ref({
-//   id: props.product.id,
-//   title: props.product.title,
-//   image: props.product.image,
-//   description: props.product.description,
-//   price: props.product.price
-// })
+const modal = ref({
+  modalTitle: 'Create Product',
+  modalButton: 'Create'
+})
+const errors = ref(null)
+const props = defineProps({
+  product: {
+    type: Object,
+    required: true
+  },
+  action: {
+    type: String,
+    required: true
+  }
+})
+
+if (props.action === 'create') {
+  modal.value.modalTitle = 'Create New Product'
+  modal.value.modalButton = 'Create'
+} else {
+  modal.value.modalTitle = 'Update Product'
+  modal.value.modalButton = 'Update'
+}
+
+const product = ref({
+  id: props.product.id || '',
+  title: props.product.title || '',
+  image: props.product.image || null,
+  description: props.product.description || '',
+  price: props.product.price || ''
+})
 
 function closeModal() {
   isVisible.value = false
+  product.value.id = ''
+  product.value.title = ''
+  product.value.image = null
+  product.value.description = ''
+  product.value.price = ''
+  errors.value = null
+}
+
+async function createProduct() {
+  loading.value = true
+  try {
+    const res = await productStore.createProduct(product.value)
+    productStore.productsData.unshift(res?.data)
+    closeModal()
+    loading.value = false
+  } catch (error) {
+    errors.value = error.response.data.errors
+    loading.value = false
+  } finally {
+    loading.value = false
+  }
+}
+
+function updateProduct() {
+  console.log('update Product')
 }
 </script>
 
@@ -56,20 +104,62 @@ function closeModal() {
               class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
             >
               <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">
-                Create Product
+                {{ modal.modalTitle }}
               </DialogTitle>
-              <div class="mt-2">
-                <BaseInput label="Title" name="title" type="text" v-model="input" />
-              </div>
-
               <div class="mt-4">
-                <button
-                  type="button"
-                  class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  @click="closeModal"
+                <form
+                  method="POST"
+                  @submit.prevent="action === 'create' ? createProduct() : updateProduct()"
                 >
-                  Got it, thanks!
-                </button>
+                  <div class="">
+                    <BaseInput
+                      label="Title"
+                      v-model="product.title"
+                      name="title"
+                      type="text"
+                      :error-msg="errors?.title[0]"
+                    />
+                  </div>
+                  <div class="mt-2">
+                    <BaseInputFile label="Image" v-model="product.image" name="image" />
+                  </div>
+                  <div class="mt-2">
+                    <BaseTextarea
+                      label="Description"
+                      v-model="product.description"
+                      name="description"
+                      type="number"
+                    />
+                  </div>
+                  <div class="mt-2">
+                    <BaseInput
+                      label="Price"
+                      step="0.01"
+                      v-model="product.price"
+                      name="price"
+                      type="number"
+                      append="$"
+                      :error-msg="errors?.price[0]"
+                    />
+                  </div>
+                  <div class="mt-2"></div>
+                  <div class="mt-4 flex gap-2">
+                    <button
+                      type="submit"
+                      class="inline-flex justify-center gap-2 rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2"
+                    >
+                      <TheSpinner v-if="loading" />
+                      {{ modal.modalButton }}
+                    </button>
+                    <button
+                      type="button"
+                      class="inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-900 hover:bg-indigo-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+                      @click="closeModal"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
               </div>
             </DialogPanel>
           </TransitionChild>

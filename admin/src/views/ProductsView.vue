@@ -4,9 +4,11 @@ import ProductModal from '@/components/Products/ProductModal.vue'
 import { ref } from 'vue'
 
 const productModal = ref(false)
+const action = ref('create')
 
 function showProductModal() {
   productModal.value = true
+  action.value = 'create'
 }
 </script>
 
@@ -21,7 +23,7 @@ function showProductModal() {
     </button>
   </div>
   <ProductsTable />
-  <ProductModal v-model="productModal" />
+  <ProductModal v-model="productModal" :product="{}" :action="action" />
 </template>
 
 <style lang="scss" scoped></style>
