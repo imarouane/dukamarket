@@ -60,7 +60,6 @@ async function deleteProduct(id) {
   } catch (error) {
     console.log(error)
   }
-
   getProducts()
 }
 const emit = defineEmits(['editClicked'])
