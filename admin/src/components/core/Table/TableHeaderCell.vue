@@ -12,7 +12,6 @@ const { field, sortField, sortDirection } = defineProps({
   <th
     @click="$emit('sortByHead', field)"
     class="cursor-pointer border-b-2 bg-gray-50 p-2 text-left"
-    :class="field === sortField ? 'bg-indigo-50' : ''"
   >
     <div class="flex justify-between">
       <slot></slot>

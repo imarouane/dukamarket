@@ -3,7 +3,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
-import { computed, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 
 const userStore = useUserStore()
@@ -26,7 +26,6 @@ async function logout() {
 onMounted(async () => {
   await userStore.getUser()
 })
-// const user = computed(() => userStore.userData.value)
 const { userData: user } = storeToRefs(userStore)
 </script>
 

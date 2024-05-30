@@ -21,7 +21,7 @@ class ProductResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'description' => $this->description,
-            'image' => $this->image,
+            'image_url' => $this->image,
             'price' => $this->price,
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d H:i:s'),

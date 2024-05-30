@@ -41,7 +41,7 @@ export const useProductsStore = defineStore('product', {
         this.loading = false
       }
     },
-    async createProduct(product) {
+    createProduct(product) {
       if (product.image instanceof File) {
         const formData = new FormData()
         formData.append('title', product.title)
@@ -57,9 +57,34 @@ export const useProductsStore = defineStore('product', {
         }
       }
 
-      return await axiosClient.post('/products', product, config)
+      return axiosClient.post('/products', product, config)
+    },
 
-      // console.log(response)
+    deleteProduct(id) {
+      return axiosClient.delete(`/products/${id}`)
+    },
+
+    getProduct(id) {
+      return axiosClient.get(`/products/${id}`)
+    },
+
+    updateProduct(product) {
+      const id = product.id
+      if (product.image instanceof File) {
+        const formData = new FormData()
+        formData.append('title', product.title)
+        formData.append('image', product.image)
+        formData.append('description', product.description)
+        formData.append('price', product.price)
+        formData.append('_method', 'PUT')
+      }
+      product._method = 'PUT'
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      return axiosClient.post(`/products/${id}`, product, config)
     }
   }
 })

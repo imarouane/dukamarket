@@ -3,7 +3,7 @@ import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } fro
 import BaseInput from '@/components/core/BaseInput.vue'
 import BaseInputFile from '@/components/core/BaseInputFile.vue'
 import BaseTextarea from '@/components/core/BaseTextarea.vue'
-import { ref } from 'vue'
+import { ref, onUpdated } from 'vue'
 import { useProductsStore } from '@/stores/products'
 import TheSpinner from '../core/TheSpinner.vue'
 
@@ -12,10 +12,6 @@ const productStore = useProductsStore()
 const isVisible = defineModel()
 const loading = ref(false)
 
-const modal = ref({
-  modalTitle: 'Create Product',
-  modalButton: 'Create'
-})
 const errors = ref(null)
 const props = defineProps({
   product: {
@@ -28,37 +24,22 @@ const props = defineProps({
   }
 })
 
-if (props.action === 'create') {
-  modal.value.modalTitle = 'Create New Product'
-  modal.value.modalButton = 'Create'
-} else {
-  modal.value.modalTitle = 'Update Product'
-  modal.value.modalButton = 'Update'
-}
+const product = ref({ ...props.product, image: null })
 
-const product = ref({
-  id: props.product.id || '',
-  title: props.product.title || '',
-  image: props.product.image || null,
-  description: props.product.description || '',
-  price: props.product.price || ''
+onUpdated(() => {
+  product.value = { ...props.product, image: null }
 })
 
 function closeModal() {
   isVisible.value = false
-  product.value.id = ''
-  product.value.title = ''
-  product.value.image = null
-  product.value.description = ''
-  product.value.price = ''
   errors.value = null
 }
 
 async function createProduct() {
   loading.value = true
   try {
-    const res = await productStore.createProduct(product.value)
-    productStore.productsData.unshift(res?.data)
+    await productStore.createProduct(product.value)
+    productStore.getProducts()
     closeModal()
     loading.value = false
   } catch (error) {
@@ -69,8 +50,19 @@ async function createProduct() {
   }
 }
 
-function updateProduct() {
-  console.log('update Product')
+async function updateProduct() {
+  loading.value = true
+  try {
+    await productStore.updateProduct({ ...product.value })
+    productStore.getProducts()
+    closeModal()
+    loading.value = false
+  } catch (error) {
+    errors.value = error.response.data.errors
+    loading.value = false
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -104,7 +96,7 @@ function updateProduct() {
               class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
             >
               <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">
-                {{ modal.modalTitle }}
+                {{ action === 'create' ? 'Create new Product' : `Edit Product: #${product?.id}` }}
               </DialogTitle>
               <div class="mt-4">
                 <form
@@ -117,7 +109,7 @@ function updateProduct() {
                       v-model="product.title"
                       name="title"
                       type="text"
-                      :error-msg="errors?.title[0]"
+                      :error-msg="errors?.title?.[0]"
                     />
                   </div>
                   <div class="mt-2">
@@ -139,7 +131,7 @@ function updateProduct() {
                       name="price"
                       type="number"
                       append="$"
-                      :error-msg="errors?.price[0]"
+                      :error-msg="errors?.price?.[0]"
                     />
                   </div>
                   <div class="mt-2"></div>
@@ -149,7 +141,7 @@ function updateProduct() {
                       class="inline-flex justify-center gap-2 rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2"
                     >
                       <TheSpinner v-if="loading" />
-                      {{ modal.modalButton }}
+                      {{ action === 'create' ? 'Create' : 'Update' }}
                     </button>
                     <button
                       type="button"
