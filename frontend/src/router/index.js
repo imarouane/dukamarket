@@ -6,12 +6,12 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('@/views/HomeView.vue')
+    component: () => import('@/views/user/HomeView.vue')
   },
   {
     path: '/app',
     name: 'app',
-    component: () => import('@/components/AppLayout.vue'),
+    component: () => import('@/components/admin/AppLayout.vue'),
     meta: {
       requiresAuth: true
     },
@@ -19,22 +19,22 @@ const routes = [
       {
         path: 'dashboard',
         name: 'app.dashboard',
-        component: () => import('@/views/DashboardView.vue')
+        component: () => import('@/views/admin/DashboardView.vue')
       },
       {
         path: 'products',
         name: 'app.products',
-        component: () => import('@/views/ProductsView.vue')
+        component: () => import('@/views/admin/ProductsView.vue')
       },
       {
         path: 'users',
         name: 'app.users',
-        component: () => import('@/views/UsersView.vue')
+        component: () => import('@/views/admin/UsersView.vue')
       },
       {
         path: 'reports',
         name: 'app.reports',
-        component: () => import('@/views/ReportsView.vue')
+        component: () => import('@/views/admin/ReportsView.vue')
       }
     ]
   },

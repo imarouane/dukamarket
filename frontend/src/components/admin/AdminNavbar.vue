@@ -1,6 +1,6 @@
 <script setup>
 import { Bars3Icon } from '@heroicons/vue/24/outline'
-import HeaderDropdown from '@/components/HedearDropdown.vue'
+import HeaderDropdown from '@/components/admin/HedearDropdown.vue'
 
 defineEmits(['toggleSidebar'])
 </script>

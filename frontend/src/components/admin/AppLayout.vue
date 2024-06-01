@@ -1,8 +1,8 @@
 <script setup>
-import SidebarView from '@/components/SidebarView.vue'
-import TheHeader from '@/components/TheHeader.vue'
+import SidebarView from '@/components/admin/SidebarView.vue'
+import AdminNavbar from '@/components/admin/AdminNavbar.vue'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import TheSpinner from './core/TheSpinner.vue'
+import TheSpinner from '@/components/core/TheSpinner.vue'
 
 const isLoading = ref(true)
 onMounted(() => {
@@ -43,7 +43,7 @@ onBeforeUnmount(() => {
 
     <div :class="[isOpen ? 'lg:ml-64' : '', 'flex-1']">
       <!-- header -->
-      <the-header @toggle-sidebar="toggleSidebar" />
+      <admin-navbar @toggle-sidebar="toggleSidebar" />
       <!-- header -->
 
       <main class="p-3 sm:p-6">

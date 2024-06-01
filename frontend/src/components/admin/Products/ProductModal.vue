@@ -5,7 +5,7 @@ import BaseInputFile from '@/components/core/BaseInputFile.vue'
 import BaseTextarea from '@/components/core/BaseTextarea.vue'
 import { ref, onUpdated } from 'vue'
 import { useProductsStore } from '@/stores/products'
-import TheSpinner from '../core/TheSpinner.vue'
+import TheSpinner from '@/components/core/TheSpinner.vue'
 
 const productStore = useProductsStore()
 

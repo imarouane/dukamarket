@@ -1,6 +1,6 @@
 <script setup>
-import ProductsTable from '@/components/Products/ProductsTable.vue'
-import ProductModal from '@/components/Products/ProductModal.vue'
+import ProductsTable from '@/components/admin/Products/ProductsTable.vue'
+import ProductModal from '@/components/admin/Products/ProductModal.vue'
 import { ref } from 'vue'
 import { useProductsStore } from '@/stores/products'
 
