@@ -1,17 +1,9 @@
 <script setup>
-import { useCounterStore } from '@/stores/compositionapi'
-// import { ref } from 'vue'
-import { storeToRefs } from 'pinia'
-
-const counterStore = useCounterStore()
-const { count } = storeToRefs(counterStore)
-const { increment } = counterStore
+import HeroSlider from '@/components/user/HeroSlider.vue'
 </script>
 
 <template>
-  <main class="font-poppins">
-    <h1 class="text-xl text-blue-600">{{ count }}</h1>
-
-    <button @click="increment">Increment</button>
+  <main class="">
+    <HeroSlider />
   </main>
 </template>
