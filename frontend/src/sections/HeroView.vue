@@ -11,10 +11,6 @@ const modules = [Autoplay, Pagination]
 
 <template>
   <swiper
-    :autoplay="{
-      delay: 4000,
-      disableOnInteraction: false
-    }"
     :pagination="{
       clickable: true
     }"
@@ -61,3 +57,8 @@ const modules = [Autoplay, Pagination]
   width: 35px;
 }
 </style>
+
+<!-- :autoplay="{
+  delay: 4000,
+  disableOnInteraction: false
+}" -->

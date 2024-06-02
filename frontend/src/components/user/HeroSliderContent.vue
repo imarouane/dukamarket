@@ -1,6 +1,6 @@
 <script setup>
 import BaseButton from '@/components/core/BaseButton.vue'
-const  props  = defineProps({
+const props = defineProps({
   content: {
     type: Object
   }

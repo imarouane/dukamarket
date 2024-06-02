@@ -4,7 +4,7 @@ import FeaturesView from '@/sections/FeaturesView.vue'
 </script>
 
 <template>
-  <main class="h-full font-manrope">
+  <main class="font-manrope">
     <HeroView />
     <FeaturesView />
   </main>
