@@ -16,7 +16,9 @@ const props = defineProps({
             class="rounded-sm bg-yellow-500 px-2 py-1 text-sm font-bold uppercase text-gray-900"
             >{{ content.priority }}</span
           >
-          <h2 class="text-left text-3xl font-semibold uppercase md:text-nowrap lg:text-4xl">
+          <h2
+            class="text-left text-3xl font-semibold uppercase md:text-nowrap lg:text-4xl xl:text-5xl"
+          >
             <span class="mb-1 block">{{ props.content.title }}</span>
             <span>Collection 2024</span>
           </h2>

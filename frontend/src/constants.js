@@ -1,4 +1,11 @@
-import { slider_img_1, slider_img_3, slider_img_4 } from '@/assets/images'
+import {
+  slider_img_1,
+  slider_img_3,
+  slider_img_4,
+  banner_1,
+  banner_2,
+  banner_3
+} from '@/assets/images'
 import {
   TruckIcon,
   CreditCardIcon,
@@ -57,18 +64,18 @@ export const bannerItems = [
     title: 'New Touch Control',
     priority: 'Intelligent',
     description: 'Discount 20% On Products',
-    // image:
+    image: banner_1
   },
   {
     title: 'Best Prices',
     priority: 'On-sale',
-    description: 'Limited Time: Online Only!'
-    // image:
+    description: 'Limited Time: Online Only!',
+    image: banner_2
   },
   {
     title: 'Super Laptops 2024',
     priority: 'Hot Sale',
-    description: 'Free Shipping All Order'
-    // image:
+    description: 'Free Shipping All Order',
+    image: banner_3
   }
 ]
