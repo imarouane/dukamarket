@@ -1,9 +1,9 @@
-<script setup></script>
+<script setup>
+import LayoutHead from '@/components/admin/LayoutHead.vue'
+</script>
 
 <template>
-  <div class="mb-3 mt-10 flex items-center justify-between">
-    <h2 class="text-3xl font-semibold">Dashborad</h2>
-  </div>
+  <LayoutHead head="Dashborad" />
 </template>
 
 <style lang="scss" scoped></style>

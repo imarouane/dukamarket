@@ -1,4 +1,5 @@
 <script setup>
+import LayoutHead from '@/components/admin/LayoutHead.vue'
 import ProductsTable from '@/components/admin/Products/ProductsTable.vue'
 import ProductModal from '@/components/admin/Products/ProductModal.vue'
 import { ref } from 'vue'
@@ -44,15 +45,14 @@ async function editProduct(product) {
 </script>
 
 <template>
-  <div class="mb-3 mt-10 flex items-center justify-between">
-    <h2 class="text-3xl font-semibold">Products</h2>
+  <LayoutHead head="Products">
     <button
       class="flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500"
       @click="addProduct()"
     >
       Add new Product
     </button>
-  </div>
+  </LayoutHead>
   <ProductsTable @editClicked="editProduct" />
   <ProductModal v-model="productModal" :product="selectedProduct" :action="action" />
 </template>

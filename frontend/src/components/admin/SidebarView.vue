@@ -1,5 +1,6 @@
 <script setup>
-import { ShoppingBagIcon } from '@heroicons/vue/24/solid'
+import AppLogo from '@/components/AppLogo.vue'
+
 import {
   HomeIcon,
   UsersIcon,
@@ -39,14 +40,14 @@ function handleEmit() {
         <XMarkIcon class="size-9" />
       </button>
     </div>
-    <h2 class="font-manrope px-1 text-2xl font-semibold leading-9 tracking-wide text-white">
+    <div class="flex justify-center">
       <router-link :to="{ name: 'app.dashboard' }" class="flex items-center gap-1"
-        ><ShoppingBagIcon class="size-6" />LV Market</router-link
-      >
-    </h2>
+        ><AppLogo
+      /></router-link>
+    </div>
 
     <ul
-      class="mt-6 flex flex-col gap-2 font-roboto text-sm font-medium tracking-wider text-gray-200"
+      class="mt-12 flex flex-col gap-2 font-roboto text-sm font-medium tracking-wider text-gray-200"
       @click="handleEmit"
     >
       <li>

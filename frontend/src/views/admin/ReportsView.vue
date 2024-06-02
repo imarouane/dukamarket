@@ -1,9 +1,9 @@
-<script setup></script>
+<script setup>
+import LayoutHead from '@/components/admin/LayoutHead.vue'
+</script>
 
 <template>
-  <div class="mb-3 mt-10 flex items-center justify-between">
-    <h2 class="text-3xl font-semibold">Reports</h2>
-  </div>
+  <LayoutHead head="Reports"></LayoutHead>
 </template>
 
 <style lang="scss" scoped></style>
