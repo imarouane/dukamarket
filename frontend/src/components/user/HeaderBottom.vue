@@ -4,8 +4,15 @@ import BaseButton from '@/components/core/BaseButton.vue'
 </script>
 
 <template>
-  <div class="px-4 sm:px-12 lg:px-6">
-    <div class="max-container flex items-center justify-between" v-motion-slide-top :delay="50">
+  <div class="padding-x">
+    <div
+      class="container mx-auto flex items-center justify-between"
+      v-motion
+      :initial="{ opacity: 0, y: -20 }"
+      :enter="{ opacity: 1, y: 0 }"
+      :delay="100"
+      :duration="200"
+    >
       <BaseButton class="py-2 lg:hidden lg:opacity-0">
         <Bars3Icon class="size-7" />
       </BaseButton>

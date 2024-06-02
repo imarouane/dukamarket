@@ -1,9 +1,11 @@
 <script setup>
-import HeroSlider from '@/components/user/HeroSlider.vue'
+import HeroView from '@/sections/HeroView.vue'
+import FeaturesView from '@/sections/FeaturesView.vue'
 </script>
 
 <template>
-  <main class="">
-    <HeroSlider />
+  <main class="h-full font-manrope">
+    <HeroView />
+    <FeaturesView />
   </main>
 </template>

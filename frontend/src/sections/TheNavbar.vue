@@ -9,4 +9,4 @@ import HeaderBottom from '@/components/user/HeaderBottom.vue'
   </header>
 </template>
 
-<style lang="scss" scoped></style>
+<style scoped></style>

@@ -9,11 +9,13 @@ import {
 } from '@heroicons/vue/24/outline'
 </script>
 <template>
-  <div class="px-4 sm:px-12 lg:px-6">
+  <div class="padding-x">
     <div
-      class="max-container items-center gap-2 border-b border-gray-50/30 py-7 md:grid md:grid-cols-12"
-      v-motion-slide-top
-      :duration="100"
+      class="container mx-auto items-center gap-2 border-b border-gray-50/30 py-7 md:grid md:grid-cols-12"
+      v-motion
+      :initial="{ opacity: 0, y: -20 }"
+      :enter="{ opacity: 1, y: 0 }"
+      :duration="200"
     >
       <div class="md:col-span-2">
         <AppLogo />
@@ -39,7 +41,7 @@ import {
       <div class="max-md:mt-4 md:col-span-4 md:col-start-9">
         <ul class="flex justify-between gap-6 md:justify-end lg:gap-4">
           <li>
-            <router-link class="group flex gap-2 transition-all hover:text-yellow-500">
+            <router-link to="/" class="group flex gap-2 transition-all hover:text-yellow-500">
               <UserIcon class="size-8 sm:size-9 lg:size-7 xl:size-8" />
               <span class="flex flex-col text-nowrap text-xs font-medium"
                 ><span class="text-gray-300 group-hover:text-yellow-500">Login</span>My
@@ -48,7 +50,7 @@ import {
             </router-link>
           </li>
           <li>
-            <router-link class="group flex gap-2 transition-all hover:text-yellow-500">
+            <router-link to="/" class="group flex gap-2 transition-all hover:text-yellow-500">
               <div class="relative">
                 <HeartIcon class="size-8 sm:size-9 lg:size-7 xl:size-8" />
                 <span
@@ -63,7 +65,7 @@ import {
             </router-link>
           </li>
           <li>
-            <router-link class="group flex gap-2 transition-all hover:text-yellow-500">
+            <router-link to="/" class="group flex gap-2 transition-all hover:text-yellow-500">
               <div class="relative">
                 <ShoppingBagIcon class="size-8 sm:size-9 lg:size-7 xl:size-8" />
                 <span
