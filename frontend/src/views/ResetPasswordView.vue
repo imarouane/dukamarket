@@ -1,5 +1,5 @@
 <script setup>
-import GuestAuthLayout from '@/components/GuestAuthLayout.vue'
+import GuestAuthLayout from '@/components/admin/GuestAuthLayout.vue'
 import BaseInput from '@/components/core/BaseInput.vue'
 </script>
 

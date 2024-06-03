@@ -8,7 +8,7 @@ const { banner } = defineProps({
 
 <template>
   <div
-    class="group relative flex min-h-48 items-center overflow-hidden px-6 font-medium text-white last-of-type:max-lg:col-span-2 last-of-type:max-sm:col-span-1 sm:min-h-52"
+    class="group relative z-10 flex min-h-48 items-center overflow-hidden px-6 font-medium text-white last-of-type:max-lg:col-span-2 last-of-type:max-sm:col-span-1 sm:min-h-52"
   >
     <div>
       <h4 class="text-2xl">{{ banner.priority }}</h4>

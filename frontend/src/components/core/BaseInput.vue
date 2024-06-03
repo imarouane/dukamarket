@@ -17,7 +17,7 @@ const { name, label, append, errorMsg } = defineProps({
 
 const inputClasses = computed(() => {
   const classes = [
-    'block w-full border-0 rounded-md py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 appearance-none'
+    'block w-full border-0 rounded-sm py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-yellow-500 sm:leading-6 appearance-none'
   ]
 
   return classes.join(' ')
@@ -25,18 +25,18 @@ const inputClasses = computed(() => {
 </script>
 
 <template>
-  <label v-if="label" :for="name" class="block text-sm font-medium leading-6 text-gray-900"
+  <label v-if="label" :for="name" class="mb-2 block font-medium leading-6 text-gray-900"
     >{{ label }}:</label
   >
   <div class="relative mt-1" :class="{ 'flex items-center': append }">
     <input v-bind="$attrs" v-model="model" :name="name" :id="name" :class="inputClasses" />
     <span
       v-if="append"
-      class="absolute right-0 inline-flex h-full items-center justify-center rounded-r-md bg-gray-200 px-2.5 font-medium text-gray-700 ring-1 ring-inset ring-gray-300"
+      class="absolute right-0 inline-flex h-full items-center justify-center rounded-r-sm bg-gray-200 px-2.5 font-medium text-gray-700 ring-1 ring-inset ring-gray-300"
       >{{ append }}</span
     >
   </div>
-  <p v-if="errorMsg" class="mt-1 text-sm font-medium text-red-500">
+  <p v-if="errorMsg" class="mt-1 font-medium text-red-500">
     {{ errorMsg }}
   </p>
 </template>

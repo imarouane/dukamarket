@@ -1,9 +1,6 @@
-<script setup>
-import TheNavbar from '@/sections/TheNavbar.vue'
-</script>
+<script setup></script>
 
 <template>
-  <TheNavbar />
   <router-view></router-view>
 </template>
 

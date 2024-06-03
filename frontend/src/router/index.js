@@ -13,7 +13,8 @@ const routes = [
     name: 'app',
     component: () => import('@/components/admin/AppLayout.vue'),
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      requiresAdmin: true
     },
     children: [
       {
@@ -39,9 +40,26 @@ const routes = [
     ]
   },
   {
+    path: '/app/admin/login',
+    name: 'adminLogin',
+    component: () => import('@/views/admin/LoginView.vue'),
+    meta: {
+      requiresGuest: true,
+      requiresAdmin: true
+    }
+  },
+  {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/LoginView.vue'),
+    component: () => import('@/views/user/LoginView.vue'),
+    meta: {
+      requiresGuest: true
+    }
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('@/views/user/RegisterView.vue'),
     meta: {
       requiresGuest: true
     }

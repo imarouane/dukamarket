@@ -5,14 +5,7 @@ import BaseButton from '@/components/core/BaseButton.vue'
 
 <template>
   <div class="padding-x">
-    <div
-      class="container mx-auto flex items-center justify-between"
-      v-motion
-      :initial="{ opacity: 0, y: -20 }"
-      :enter="{ opacity: 1, y: 0 }"
-      :delay="100"
-      :duration="200"
-    >
+    <div class="container mx-auto flex items-center justify-between">
       <BaseButton class="py-2 lg:hidden lg:opacity-0">
         <Bars3Icon class="size-7" />
       </BaseButton>

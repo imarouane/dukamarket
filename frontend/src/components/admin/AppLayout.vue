@@ -27,11 +27,11 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div v-if="isLoading" class="flex h-full w-full items-center justify-center bg-gray-100">
+  <div v-if="isLoading" class="flex h-screen w-full items-center justify-center bg-gray-100">
     <TheSpinner class="h-12 w-12 !text-indigo-500 sm:h-14 sm:w-14" />
   </div>
 
-  <div v-else class="flex min-h-full items-start bg-gray-100">
+  <div v-else class="flex min-h-screen items-start bg-gray-100">
     <!-- Sidebar -->
 
     <sidebar-view

@@ -17,7 +17,7 @@ const props = defineProps({
 async function logout() {
   const { success, error } = await userStore.logout()
   if (success) {
-    router.push({ name: 'login' })
+    router.push({ name: 'adminLogin' })
   } else {
     console.error(error)
   }

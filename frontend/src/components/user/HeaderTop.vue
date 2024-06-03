@@ -12,10 +12,6 @@ import {
   <div class="padding-x">
     <div
       class="container mx-auto items-center gap-2 border-b border-gray-50/30 py-7 md:grid md:grid-cols-12"
-      v-motion
-      :initial="{ opacity: 0, y: -20 }"
-      :enter="{ opacity: 1, y: 0 }"
-      :duration="200"
     >
       <div class="md:col-span-2">
         <AppLogo />
@@ -41,7 +37,10 @@ import {
       <div class="max-md:mt-4 md:col-span-4 md:col-start-9">
         <ul class="flex justify-between gap-6 md:justify-end lg:gap-4">
           <li>
-            <router-link to="/" class="group flex gap-2 transition-all hover:text-yellow-500">
+            <router-link
+              :to="{ name: 'login' }"
+              class="group flex gap-2 transition-all hover:text-yellow-500"
+            >
               <UserIcon class="size-8 sm:size-9 lg:size-7 xl:size-8" />
               <span class="flex flex-col text-nowrap text-sm font-medium"
                 ><span class="text-xs text-gray-300 group-hover:text-yellow-500">Login</span>

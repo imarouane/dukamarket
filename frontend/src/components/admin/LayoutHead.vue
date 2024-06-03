@@ -5,8 +5,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="mt-12 mb-3 flex items-center justify-between">
-    <h2 class="text-3xl font-semibold leading-none">{{ props.head }}</h2>
+  <div class="mb-3 mt-12 flex items-center justify-between">
+    <h2 class="text-2xl font-semibold leading-none sm:text-3xl">{{ props.head }}</h2>
     <slot></slot>
   </div>
 </template>
