@@ -43,10 +43,10 @@ import {
           <li>
             <router-link to="/" class="group flex gap-2 transition-all hover:text-yellow-500">
               <UserIcon class="size-8 sm:size-9 lg:size-7 xl:size-8" />
-              <span class="flex flex-col text-nowrap text-xs font-medium"
-                ><span class="text-gray-300 group-hover:text-yellow-500">Login</span>My
-                Account</span
-              >
+              <span class="flex flex-col text-nowrap text-sm font-medium"
+                ><span class="text-xs text-gray-300 group-hover:text-yellow-500">Login</span>
+                Account
+              </span>
             </router-link>
           </li>
           <li>
@@ -60,7 +60,7 @@ import {
               </div>
               <span class="flex flex-col text-nowrap text-xs font-medium">
                 <span class="text-gray-300 group-hover:text-yellow-500">Favorite</span>
-                My wishlist
+                Wishlist
               </span>
             </router-link>
           </li>

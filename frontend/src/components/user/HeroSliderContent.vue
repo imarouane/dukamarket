@@ -10,7 +10,14 @@ const props = defineProps({
 <template>
   <div class="padding-y container mx-auto px-4 text-white sm:px-2 lg:px-28">
     <div class="flex flex-col justify-between gap-4 md:flex-row">
-      <div class="flex flex-col justify-center gap-10">
+      <div
+        class="flex flex-col justify-center gap-10"
+        v-motion
+        :initial="{ opacity: 0, y: 100 }"
+        :enter="{ opacity: 1, y: 0, scale: 1 }"
+        :delay="200"
+        :duration="1000"
+      >
         <div class="flex flex-col items-start gap-4">
           <span
             class="rounded-sm bg-yellow-500 px-2 py-1 text-sm font-bold uppercase text-gray-900"
@@ -32,7 +39,14 @@ const props = defineProps({
         >
       </div>
       <div class="flex justify-center">
-        <figure class="max-h-[360px] w-full max-w-[360px]">
+        <figure
+          class="max-h-[360px] w-full max-w-[360px]"
+          v-motion
+          :initial="{ opacity: 0, y: 100 }"
+          :enter="{ opacity: 1, y: 0, scale: 1 }"
+          :delay="200"
+          :duration="1000"
+        >
           <img :src="content.sliderImage" alt="slider image" class="h-full" />
         </figure>
       </div>
