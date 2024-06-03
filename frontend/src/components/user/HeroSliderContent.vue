@@ -32,45 +32,12 @@ const props = defineProps({
         >
       </div>
       <div class="flex justify-center">
-        <figure class="w-full max-w-[360px]">
-          <img :src="content.sliderImage" alt="slider image" class="" />
+        <figure class="max-h-[360px] w-full max-w-[360px]">
+          <img :src="content.sliderImage" alt="slider image" class="h-full" />
         </figure>
       </div>
     </div>
   </div>
 </template>
 
-<style>
-.swiper {
-  min-height: 500px;
-  width: 100%;
-  background: #1e40af;
-}
-
-.swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.hero_swiper .swiper-pagination-bullet {
-  background-color: #fff;
-}
-
-.hero_swiper .swiper-pagination-bullet-active {
-  background-color: #fcbe00;
-  border-radius: 10px;
-  opacity: 1;
-  position: relative;
-  width: 35px;
-}
-</style>
+<style></style>

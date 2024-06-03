@@ -38,13 +38,6 @@ const modules = [Autoplay, Pagination]
   align-items: center;
 }
 
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .hero_swiper .swiper-pagination-bullet {
   background-color: #fff;
 }
