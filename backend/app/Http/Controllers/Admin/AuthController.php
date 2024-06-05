@@ -24,7 +24,7 @@ class AuthController extends Controller
 
         if (!Auth::attempt($credentials, $remember)) {
             return response([
-                'message' => 'Oops, those credentials you entered do not match our records. Please try again.',
+                'message' => 'Oops, The provided credentials do not match our records, Please try again.',
             ], 422);
         }
 
@@ -45,13 +45,17 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
         /** @var APP\Models\User $user */
         $user = Auth::user();
-        $user->currentAccessToken()->delete();
-
-        return response('', 204);
+        $user->tokens()->delete();
+        return response()->noContent();
     }
 
     public function getUser(Request $request)
