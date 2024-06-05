@@ -44,8 +44,7 @@ const routes = [
     name: 'adminLogin',
     component: () => import('@/views/admin/LoginView.vue'),
     meta: {
-      requiresGuest: true,
-      requiresAdmin: true
+      requiresGuest: true
     }
   },
   {
@@ -94,11 +93,16 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
-  const token = userStore.userToken
-  if (to.meta.requiresAuth && !token) {
+  const isLoggedIn = userStore.isLoggedIn
+  const isAdmin = userStore.isAdmin
+  if (to.meta.requiresAuth && !isLoggedIn) {
     next({ name: 'login' })
-  } else if (to.meta.requiresGuest && token) {
-    next({ name: 'app.dashboard' })
+  } else if (to.meta.requiresAdmin && !isAdmin) {
+    next({ name: 'home' })
+  } else if (to.meta.requiresGuest && isAdmin && isLoggedIn) {
+    next({name: 'app.dashboard'})
+  } else if (to.meta.requiresGuest && isLoggedIn) {
+    next({ name: 'home' })
   } else {
     next()
   }

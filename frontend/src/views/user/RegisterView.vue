@@ -1,10 +1,12 @@
 <script setup>
 import TheNavbar from '@/sections/TheNavbar.vue'
-import { reactive, ref } from 'vue'
-import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
 import TheSpinner from '@/components/core/TheSpinner.vue'
 import BaseInput from '@/components/core/BaseInput.vue'
+import useVuelidate from '@vuelidate/core'
+import { ref, computed } from 'vue'
+import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
+import { required, email, sameAs, minLength, maxLength } from '@vuelidate/validators'
 
 const router = useRouter()
 
@@ -13,26 +15,35 @@ const errorMsg = ref('')
 
 const userStore = useUserStore()
 
-const user = reactive({
+const userData = ref({
   name: '',
   email: '',
   password: '',
   password_confirmation: ''
 })
 
+const rules = computed(() => {
+  return {
+    name: { required, minLength: minLength(6), maxLength: maxLength(255) },
+    email: { required, email, maxLength: maxLength(255) },
+    password: { required, minLength: minLength(8), maxLength: maxLength(255) },
+    password_confirmation: { required, sameAs: sameAs(userData.value.password) }
+  }
+})
+const v$ = useVuelidate(rules, userData)
 async function regiter() {
-  isLoading.value = true
-  try {
-    const { success, error } = await userStore.login(user)
+  const isFormValid = await v$.value.$validate()
+  console.log(isFormValid)
+  if (isFormValid) {
+    isLoading.value = true
+    const { success, error } = await userStore.register(userData)
     if (success) {
-      router.push({ name: 'app.dashboard' })
+      isLoading.value = false
+      router.push({ name: 'home' })
     } else {
+      isLoading.value = false
       errorMsg.value = error
     }
-  } catch (error) {
-    console.error(error)
-  } finally {
-    isLoading.value = false
   }
 }
 </script>
@@ -57,21 +68,69 @@ async function regiter() {
           {{ errorMsg }}
         </div>
         <div>
-          <BaseInput label="Name" type="text" name="name" v-model="user.name" />
+          <BaseInput
+            label="Name"
+            type="text"
+            name="name"
+            :class="{
+              'ring-red-500 focus:ring-red-500': v$.$errors.find((err) => err.$property === 'name')
+            }"
+            placeholder="First and last name"
+            v-model="userData.name"
+          />
+          <span class="mt-1 block text-sm font-semibold text-red-400" v-if="v$.name.$error">
+            {{ v$.name.$errors[0].$message }}
+          </span>
         </div>
         <div>
-          <BaseInput label="Email address" type="email" name="email" v-model="user.email" />
+          <BaseInput
+            label="Email address"
+            type="email"
+            name="email"
+            :class="{
+              'ring-red-500 focus:ring-red-500': v$.$errors.find((err) => err.$property === 'email')
+            }"
+            v-model="userData.email"
+          />
+          <span class="mt-1 block text-sm font-semibold text-red-400" v-if="v$.email.$error">
+            {{ v$.email.$errors[0].$message }}
+          </span>
         </div>
         <div>
-          <BaseInput label="Password" type="password" name="password" v-model="user.password" />
+          <BaseInput
+            label="Password"
+            type="password"
+            name="password"
+            :class="{
+              'ring-red-500 focus:ring-red-500': v$.$errors.find(
+                (err) => err.$property === 'password'
+              )
+            }"
+            placeholder="At least 8 characters"
+            v-model="userData.password"
+          />
+          <span class="mt-1 block text-sm font-semibold text-red-400" v-if="v$.password.$error">
+            {{ v$.password.$errors[0].$message }}
+          </span>
         </div>
         <div>
           <BaseInput
             label="Password Confirmation"
             type="password"
             name="password_confirmation"
-            v-model="user.password"
+            :class="{
+              'ring-red-500 focus:ring-red-500': v$.$errors.find(
+                (err) => err.$property === 'password_confirmation'
+              )
+            }"
+            v-model="userData.password_confirmation"
           />
+          <span
+            class="mt-1 block text-sm font-semibold text-red-400"
+            v-if="v$.password_confirmation.$error"
+          >
+            {{ v$.password_confirmation.$errors[0].$message }}
+          </span>
         </div>
         <div>
           <button
@@ -80,11 +139,12 @@ async function regiter() {
             class="flex w-full items-center justify-center gap-2 rounded-sm border border-transparent bg-yellow-500 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-800 shadow-sm transition-all duration-300 hover:border-yellow-500 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             :class="{
               'cursor-not-allowed': isLoading,
-              'bg-white': isLoading
+              '!bg-white': isLoading,
+              'border-yellow-500': isLoading
             }"
           >
             <TheSpinner v-if="isLoading" class="text-yellow-500" />
-            <span v-if="!isLoading">Sign in</span>
+            <span>Sign up</span>
           </button>
         </div>
       </form>

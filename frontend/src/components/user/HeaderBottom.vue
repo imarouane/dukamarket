@@ -1,6 +1,11 @@
 <script setup>
 import { Bars3Icon } from '@heroicons/vue/24/solid'
 import BaseButton from '@/components/core/BaseButton.vue'
+import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
+const userStore = useUserStore()
+
+const { isAdmin } = storeToRefs(userStore)
 </script>
 
 <template>
@@ -23,6 +28,11 @@ import BaseButton from '@/components/core/BaseButton.vue'
 
         <nav class="border-l border-gray-50/20 pl-8">
           <ul class="flex gap-3 text-base font-semibold uppercase transition">
+            <li v-if="isAdmin">
+              <router-link :to="{ name: 'app.dashboard' }" class="hover:text-yellow-400"
+                >Dashboard</router-link
+              >
+            </li>
             <li>
               <router-link :to="{ name: 'home' }" class="hover:text-yellow-400">HOME</router-link>
             </li>

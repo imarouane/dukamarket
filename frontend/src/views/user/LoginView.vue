@@ -21,17 +21,14 @@ const user = reactive({
 
 async function login() {
   isLoading.value = true
-  try {
-    const { success, error } = await userStore.login(user)
-    if (success) {
-      router.push({ name: 'app.dashboard' })
-    } else {
-      errorMsg.value = error
-    }
-  } catch (error) {
-    console.error(error)
-  } finally {
+
+  const { success, error } = await userStore.login(user)
+  if (success) {
     isLoading.value = false
+    router.push({ name: 'home' })
+  } else {
+    isLoading.value = false
+    errorMsg.value = error
   }
 }
 </script>
@@ -49,7 +46,7 @@ async function login() {
     <div class="mt-10 px-3 sm:mx-auto sm:w-full sm:max-w-sm sm:px-0">
       <form class="space-y-6" @submit.prevent="login" method="POST">
         <div
-          class="rounded-md bg-gray-200 px-3 py-1 text-center font-medium text-red-500"
+          class="rounded-md bg-gray-200 px-3 py-2 text-center font-medium text-red-500"
           v-if="errorMsg"
         >
           {{ errorMsg }}
@@ -88,7 +85,8 @@ async function login() {
             class="flex w-full items-center justify-center gap-2 rounded-sm border border-transparent bg-yellow-500 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-800 shadow-sm transition-all duration-300 hover:border-yellow-500 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             :class="{
               'cursor-not-allowed': isLoading,
-              'bg-white': isLoading
+              '!bg-white': isLoading,
+              'border-yellow-500': isLoading
             }"
           >
             <TheSpinner v-if="isLoading" class="text-yellow-500" />

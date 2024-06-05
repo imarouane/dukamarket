@@ -1,12 +1,29 @@
 <script setup>
+import { useUserStore } from '@/stores/user'
 import AppLogo from '@/components/AppLogo.vue'
 import BaseButton from '@/components/core/BaseButton.vue'
+import { useRouter } from 'vue-router'
 import {
   UserIcon,
   HeartIcon,
   ShoppingBagIcon,
-  MagnifyingGlassIcon
+  MagnifyingGlassIcon,
+  ArrowLeftEndOnRectangleIcon
 } from '@heroicons/vue/24/outline'
+import { storeToRefs } from 'pinia'
+
+const userStore = useUserStore()
+const router = useRouter()
+const { isLoggedIn } = storeToRefs(userStore)
+
+async function logout() {
+  const { success, error } = await userStore.logout()
+  if (success) {
+    router.push({ name: 'userLogin' })
+  } else {
+    console.error(error)
+  }
+}
 </script>
 <template>
   <div class="padding-x">
@@ -42,8 +59,10 @@ import {
               class="group flex gap-2 transition-all hover:text-yellow-500"
             >
               <UserIcon class="size-8 sm:size-9 lg:size-7 xl:size-8" />
-              <span class="flex flex-col text-nowrap text-sm font-medium"
-                ><span class="text-xs text-gray-300 group-hover:text-yellow-500">Login</span>
+              <span class="flex flex-col justify-center text-nowrap text-sm font-medium">
+                <span v-if="!isLoggedIn" class="text-xs text-gray-300 group-hover:text-yellow-500"
+                  >Login</span
+                >
                 Account
               </span>
             </router-link>
@@ -78,6 +97,13 @@ import {
                 $0.00</span
               >
             </router-link>
+          </li>
+          <li>
+            <button title="Logout" @click="logout" v-if="isLoggedIn">
+              <ArrowLeftEndOnRectangleIcon
+                class="size-8 text-red-500 sm:size-9 lg:size-7 xl:size-8"
+              />
+            </button>
           </li>
         </ul>
       </div>

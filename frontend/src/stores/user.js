@@ -1,19 +1,38 @@
-import { ref, reactive } from 'vue'
-import { defineStore } from 'pinia'
 import axiosClient from '@/axios'
+import { ref, reactive, computed } from 'vue'
+import { defineStore } from 'pinia'
+import axios from 'axios'
 export const useUserStore = defineStore('user', () => {
   const userToken = ref(sessionStorage.getItem('TOKEN'))
   const userData = reactive({})
+  const isLoggedIn = computed(() => !!userToken.value)
+  const isAdmin = computed(() => !!userData.value?.is_admin || false)
+  async function getToken() {
+    await axios.get('/sanctum/csrf-cookie')
+  }
 
-  async function login(userForm) {
+  async function getUser() {
     try {
-      const { data } = await axiosClient.post('/login', userForm)
+      const { data } = await axiosClient.get('/user')
+      userData.value = data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function login(userFormData) {
+    getToken()
+    try {
+      const { data } = await axiosClient.post('/login', userFormData, {
+        withCredentials: true,
+        withXSRFToken: true
+      })
       const { token, user } = data
 
       sessionStorage.setItem('TOKEN', token)
       userToken.value = token
       userData.value = user
-      
+      getUser()
       return { success: true, error: '' }
     } catch (error) {
       if (error.response?.status === 422) {
@@ -21,14 +40,18 @@ export const useUserStore = defineStore('user', () => {
       } else {
         sessionStorage.removeItem('TOKEN')
         userToken.value = null
-        return { success: false, error: 'An error occurred during login' }
+        return { success: false, error: 'An Error Occurred During Login' }
       }
     }
   }
 
   async function logout() {
+    getToken()
     try {
-      await axiosClient.post('/logout')
+      await axiosClient.post('/logout', null, {
+        withCredentials: true,
+        withXSRFToken: true
+      })
 
       userToken.value = null
       userData.value = {}
@@ -44,13 +67,5 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  async function getUser() {
-    try {
-      const { data } = await axiosClient.get('/user')
-      userData.value = data
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  return { userToken, userData, login, logout, getUser }
+  return { userData, login, logout, getUser, isAdmin, isLoggedIn }
 })
