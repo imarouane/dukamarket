@@ -3,19 +3,19 @@ import TheNavbar from '@/sections/TheNavbar.vue'
 import TheSpinner from '@/components/core/TheSpinner.vue'
 import BaseInput from '@/components/core/BaseInput.vue'
 import useVuelidate from '@vuelidate/core'
-import { ref, computed } from 'vue'
+import { ref, computed, reactive, inject } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
-import { required, email, sameAs, minLength, maxLength } from '@vuelidate/validators'
+import { required, email, sameAs, minLength, maxLength, helpers } from '@vuelidate/validators'
 
+const emitter = inject('emitter')
 const router = useRouter()
-
 const isLoading = ref(false)
 const errorMsg = ref('')
 
 const userStore = useUserStore()
 
-const userData = ref({
+const userData = reactive({
   name: '',
   email: '',
   password: '',
@@ -24,12 +24,37 @@ const userData = ref({
 
 const rules = computed(() => {
   return {
-    name: { required, minLength: minLength(6), maxLength: maxLength(255) },
-    email: { required, email, maxLength: maxLength(255) },
-    password: { required, minLength: minLength(8), maxLength: maxLength(255) },
-    password_confirmation: { required, sameAs: sameAs(userData.value.password) }
+    name: {
+      required: helpers.withMessage('The name field is required', required),
+      minLength: helpers.withMessage(
+        'The name field requires a minimum of 6 characters.',
+        minLength(6)
+      ),
+      maxLength: maxLength(255)
+    },
+    email: {
+      required: helpers.withMessage('The email field is required', required),
+      email: helpers.withMessage('Please enter a valid email address.', email),
+      maxLength: maxLength(255)
+    },
+    password: {
+      required: helpers.withMessage('The password field is required', required),
+      minLength: helpers.withMessage(
+        'The password field requires a minimum of 8 characters.',
+        minLength(8)
+      ),
+      maxLength: maxLength(255)
+    },
+    password_confirmation: {
+      required: helpers.withMessage('The password confirmation field is required', required),
+      sameAs: helpers.withMessage(
+        'Passwords do not match. Please re-enter the same password.',
+        sameAs(userData.password)
+      )
+    }
   }
 })
+
 const v$ = useVuelidate(rules, userData)
 async function regiter() {
   const isFormValid = await v$.value.$validate()
@@ -39,6 +64,7 @@ async function regiter() {
     const { success, error } = await userStore.register(userData)
     if (success) {
       isLoading.value = false
+      emitter.emit('notify')
       router.push({ name: 'home' })
     } else {
       isLoading.value = false

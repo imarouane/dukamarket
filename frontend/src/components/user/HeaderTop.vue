@@ -1,4 +1,5 @@
 <script setup>
+import { inject } from 'vue'
 import { useUserStore } from '@/stores/user'
 import AppLogo from '@/components/AppLogo.vue'
 import BaseButton from '@/components/core/BaseButton.vue'
@@ -12,6 +13,7 @@ import {
 } from '@heroicons/vue/24/outline'
 import { storeToRefs } from 'pinia'
 
+const emitter = inject('emitter')
 const userStore = useUserStore()
 const router = useRouter()
 const { isLoggedIn } = storeToRefs(userStore)
@@ -19,7 +21,8 @@ const { isLoggedIn } = storeToRefs(userStore)
 async function logout() {
   const { success, error } = await userStore.logout()
   if (success) {
-    router.push({ name: 'userLogin' })
+    emitter.emit('notify')
+    router.push({ name: 'login' })
   } else {
     console.error(error)
   }
@@ -53,19 +56,25 @@ async function logout() {
       <!-- header action -->
       <div class="max-md:mt-4 md:col-span-4 md:col-start-9">
         <ul class="flex justify-between gap-6 md:justify-end lg:gap-4">
-          <li>
+          <li v-if="!isLoggedIn">
             <router-link
               :to="{ name: 'login' }"
               class="group flex gap-2 transition-all hover:text-yellow-500"
             >
               <UserIcon class="size-8 sm:size-9 lg:size-7 xl:size-8" />
               <span class="flex flex-col justify-center text-nowrap text-sm font-medium">
-                <span v-if="!isLoggedIn" class="text-xs text-gray-300 group-hover:text-yellow-500"
-                  >Login</span
-                >
+                <span class="text-xs text-gray-300 group-hover:text-yellow-500">Login</span>
                 Account
               </span>
             </router-link>
+          </li>
+          <li v-else>
+            <button
+              class="group flex items-center justify-center gap-1 transition-all hover:text-yellow-500"
+            >
+              <UserIcon class="size-8 sm:size-9 lg:size-7 xl:size-8" />
+              <span class="text-nowrap text-sm font-medium">Account</span>
+            </button>
           </li>
           <li>
             <router-link to="/" class="group flex gap-2 transition-all hover:text-yellow-500">

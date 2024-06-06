@@ -10,17 +10,19 @@ const modules = [Autoplay, Pagination]
 </script>
 
 <template>
-  <swiper
-    :pagination="{
-      clickable: true
-    }"
-    :modules="modules"
-    class="hero_swiper"
-  >
-    <swiper-slide v-for="content in heroContent" :key="content.title">
-      <HeroSliderContent :content="content" />
-    </swiper-slide>
-  </swiper>
+  <section>
+    <swiper
+      :pagination="{
+        clickable: true
+      }"
+      :modules="modules"
+      class="hero_swiper"
+    >
+      <swiper-slide v-for="content in heroContent" :key="content.title">
+        <HeroSliderContent :content="content" />
+      </swiper-slide>
+    </swiper>
+  </section>
 </template>
 
 <style>

@@ -3,9 +3,10 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
-import { onMounted } from 'vue'
+import { onMounted, inject } from 'vue'
 import { storeToRefs } from 'pinia'
 
+const emitter = inject('emitter')
 const userStore = useUserStore()
 const router = useRouter()
 
@@ -17,6 +18,7 @@ const props = defineProps({
 async function logout() {
   const { success, error } = await userStore.logout()
   if (success) {
+    emitter.emit('notify')
     router.push({ name: 'adminLogin' })
   } else {
     console.error(error)

@@ -1,13 +1,13 @@
 <script setup>
 import GuestAuthLayout from '@/components/admin/GuestAuthLayout.vue'
-import { reactive, ref } from 'vue'
+import { reactive, ref, inject } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import TheSpinner from '@/components/core/TheSpinner.vue'
 import BaseInput from '@/components/core/BaseInput.vue'
 
+const emitter = inject('emitter')
 const router = useRouter()
-
 const isLoading = ref(false)
 const errorMsg = ref('')
 
@@ -24,6 +24,7 @@ async function login() {
   const { success, error } = await userStore.login(user)
   if (success) {
     isLoading.value = false
+    emitter.emit('notify')
     router.push({ name: 'app.dashboard' })
   } else {
     isLoading.value = false
