@@ -58,7 +58,6 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, userData)
 async function regiter() {
   const isFormValid = await v$.value.$validate()
-  console.log(isFormValid)
   if (isFormValid) {
     isLoading.value = true
     const { success, error } = await userStore.register(userData)

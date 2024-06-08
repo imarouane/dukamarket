@@ -1,10 +1,12 @@
 <script setup>
 import TheNavbar from '@/sections/TheNavbar.vue'
-import { reactive, ref, inject } from 'vue'
-import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
 import TheSpinner from '@/components/core/TheSpinner.vue'
 import BaseInput from '@/components/core/BaseInput.vue'
+import useVuelidate from '@vuelidate/core'
+import { reactive, ref, inject, computed } from 'vue'
+import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
+import { required, email, helpers } from '@vuelidate/validators'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -13,23 +15,38 @@ const emitter = inject('emitter')
 const isLoading = ref(false)
 const errorMsg = ref('')
 
-const user = reactive({
+const userData = reactive({
   email: '',
   password: '',
   remember: false
 })
 
+const rules = computed(() => {
+  return {
+    email: {
+      required: helpers.withMessage('The email field is required', required),
+      email: helpers.withMessage('Please enter a valid email address.', email)
+    },
+    password: {
+      required: helpers.withMessage('The password field is required', required)
+    }
+  }
+})
+const v$ = useVuelidate(rules, userData)
 async function login() {
-  isLoading.value = true
-
-  const { success, error } = await userStore.login(user)
-  if (success) {
-    isLoading.value = false
-    emitter.emit('notify')
-    router.push({ name: 'home' })
-  } else {
-    isLoading.value = false
-    errorMsg.value = error
+  const isFormValid = await v$.value.$validate()
+  console.log(isFormValid)
+  if (isFormValid) {
+    isLoading.value = true
+    const { success, error } = await userStore.login(userData)
+    if (success) {
+      isLoading.value = false
+      emitter.emit('notify')
+      router.push({ name: 'home' })
+    } else {
+      isLoading.value = false
+      errorMsg.value = error
+    }
   }
 }
 </script>
@@ -53,10 +70,34 @@ async function login() {
           {{ errorMsg }}
         </div>
         <div>
-          <BaseInput label="Email address" type="email" name="email" v-model="user.email" />
+          <BaseInput
+            label="Email address"
+            type="email"
+            name="email"
+            v-model="userData.email"
+            :class="{
+              'ring-red-500 focus:ring-red-500': v$.$errors.find((err) => err.$property === 'email')
+            }"
+          />
+          <span class="mt-1 block text-sm font-semibold text-red-400" v-if="v$.email.$error">
+            {{ v$.email.$errors[0].$message }}
+          </span>
         </div>
         <div>
-          <BaseInput label="Password" type="password" name="password" v-model="user.password" />
+          <BaseInput
+            label="Password"
+            type="password"
+            name="password"
+            v-model="userData.password"
+            :class="{
+              'ring-red-500 focus:ring-red-500': v$.$errors.find(
+                (err) => err.$property === 'password'
+              )
+            }"
+          />
+          <span class="mt-1 block text-sm font-semibold text-red-400" v-if="v$.password.$error">
+            {{ v$.password.$errors[0].$message }}
+          </span>
         </div>
         <div class="flex items-center justify-between">
           <div class="flex items-start">
@@ -65,7 +106,7 @@ async function login() {
                 id="remember"
                 name="remember"
                 type="checkbox"
-                v-model="user.remember"
+                v-model="userData.remember"
                 class="h-4 w-4 rounded border-gray-300 text-blue-700 focus:ring-blue-600"
               />
             </div>

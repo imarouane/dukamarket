@@ -98,7 +98,15 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    return (
+      savedPosition ||
+      new Promise((resolve) => {
+        setTimeout(() => resolve({ top: 0, behavior: 'smooth' }), 300)
+      })
+    )
+  }
 })
 
 router.beforeEach((to, from, next) => {
@@ -109,8 +117,6 @@ router.beforeEach((to, from, next) => {
     next({ name: 'login' })
   } else if (to.meta.requiresAdmin && !isAdmin) {
     next({ name: 'home' })
-  } else if (to.meta.requiresGuest && isAdmin && isLoggedIn) {
-    next({ name: 'app.dashboard' })
   } else if (to.meta.requiresGuest && isLoggedIn) {
     next({ name: 'home' })
   } else {
