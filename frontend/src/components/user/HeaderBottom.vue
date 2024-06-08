@@ -37,7 +37,7 @@ const { isAdmin } = storeToRefs(userStore)
               <router-link :to="{ name: 'home' }" class="hover:text-yellow-400">HOME</router-link>
             </li>
             <li>
-              <router-link :to="{ name: 'home' }" class="hover:text-yellow-400">Shop</router-link>
+              <router-link :to="{ name: 'shop' }" class="hover:text-yellow-400">Shop</router-link>
             </li>
             <li>
               <router-link :to="{ name: 'home' }" class="hover:text-yellow-400">ABOUT</router-link>

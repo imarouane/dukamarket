@@ -35,7 +35,9 @@ async function logout() {
       class="container mx-auto items-center gap-2 border-b border-gray-50/30 py-7 md:grid md:grid-cols-12"
     >
       <div class="md:col-span-2">
-        <AppLogo />
+        <router-link :to="{ name: 'home' }">
+          <AppLogo />
+        </router-link>
       </div>
       <!-- search form -->
       <div class="max-lg:hidden max-lg:opacity-0 lg:col-span-5 lg:col-start-4">

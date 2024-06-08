@@ -28,7 +28,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div v-if="isLoading" class="flex h-screen w-full items-center justify-center bg-gray-100">
-    <TheSpinner class="h-12 w-12 !text-indigo-500 sm:h-14 sm:w-14" />
+    <TheSpinner class="h-12 w-12 !text-blue-500 sm:h-14 sm:w-14" />
   </div>
 
   <div v-else class="flex min-h-screen items-start bg-gray-100">

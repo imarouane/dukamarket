@@ -1,5 +1,4 @@
 <script setup>
-import BaseButton from '@/components/core/BaseButton.vue'
 const props = defineProps({
   content: {
     type: Object
@@ -33,9 +32,10 @@ const props = defineProps({
             Exclusive offer <span>-{{ content.discount }}%</span> off this week
           </p>
         </div>
-        <BaseButton
+        <router-link
+          :to="{ name: 'shop' }"
           class="mt-2 self-start rounded-sm bg-white px-8 py-2 font-medium text-gray-900 transition duration-200 hover:bg-yellow-500"
-          >Shop Now</BaseButton
+          >Shop Now</router-link
         >
       </div>
       <div class="flex justify-center">

@@ -27,7 +27,7 @@ function handleEmit() {
 
 <template>
   <div
-    class="fixed z-20 h-screen w-full max-w-64 rounded-br-3xl rounded-tr-3xl bg-indigo-600 py-4 pl-3 pr-4 transition-all duration-150"
+    class="fixed z-20 h-screen w-full max-w-64 rounded-br-3xl rounded-tr-3xl bg-blue-700 py-4 pl-3 pr-4 transition-all duration-150"
   >
     <div
       v-if="props.isSidebarOpen"
@@ -35,7 +35,7 @@ function handleEmit() {
       @click="$emit('closeSidebar')"
     >
       <button
-        class="absolute right-6 top-1 rounded-lg bg-indigo-700 p-2 text-white hover:bg-indigo-600"
+        class="absolute right-6 top-1 rounded-lg bg-blue-700 p-2 text-white hover:bg-blue-600"
       >
         <XMarkIcon class="size-9" />
       </button>

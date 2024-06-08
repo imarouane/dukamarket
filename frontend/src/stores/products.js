@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import axiosClient from '@/axios'
+
 export const useProductsStore = defineStore('product', {
   state: () => ({
     loading: false,
@@ -17,7 +18,7 @@ export const useProductsStore = defineStore('product', {
   actions: {
     async getProducts(url = null, search = '', perPage = 10, sort_field, sort_direction) {
       this.loading = true
-      url = url || '/products'
+      url = url || 'admin/products'
       try {
         const { data } = await axiosClient(url, {
           params: {
@@ -54,18 +55,18 @@ export const useProductsStore = defineStore('product', {
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data'
-        }
+        },
       }
 
-      return axiosClient.post('/products', product, config)
+      return axiosClient.post('admin/products', product, config)
     },
 
     deleteProduct(id) {
-      return axiosClient.delete(`/products/${id}`)
+      return axiosClient.delete(`admin/products/${id}`)
     },
 
     getProduct(id) {
-      return axiosClient.get(`/products/${id}`)
+      return axiosClient.get(`admin/products/${id}`)
     },
 
     updateProduct(product) {
@@ -84,7 +85,34 @@ export const useProductsStore = defineStore('product', {
           'Content-Type': 'multipart/form-data'
         }
       }
-      return axiosClient.post(`/products/${id}`, product, config)
+      return axiosClient.post(`admin/products/${id}`, product, config)
+    },
+
+    async getUserProducts(url = null, search = '', perPage = 10, sort_field, sort_direction) {
+      this.loading = true
+      url = url || 'admin/products'
+      try {
+        const { data } = await axiosClient(url, {
+          params: {
+            search,
+            per_page: perPage,
+            sort_field,
+            sort_direction
+          }
+        })
+        this.productsData = data.data
+        const { meta } = data
+        this.links = meta.links
+        this.from = meta.from
+        this.to = meta.to
+        this.current_page = meta.current_page
+        this.per_page = meta.per_page
+        this.total = meta.total
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.loading = false
+      }
     }
   }
 })

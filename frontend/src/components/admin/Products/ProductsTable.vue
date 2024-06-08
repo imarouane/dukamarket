@@ -1,16 +1,19 @@
 <script setup>
 import TheSpinner from '@/components/core/TheSpinner.vue'
 import TableHeaderCell from '@/components/core/Table/TableHeaderCell.vue'
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import DropdownMenu from '@/components/core/DropdownMenu.vue'
+import { MenuItem } from '@headlessui/vue'
 import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
-
+import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { PRODUCTS_PER_PAGE } from '@/constants'
 import { useProductsStore } from '@/stores/products'
 import { storeToRefs } from 'pinia'
-import { onMounted, ref } from 'vue'
-import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import { onMounted, ref, inject } from 'vue'
+import { useNotificationStore } from '@/stores/notification'
 
 const productsStore = useProductsStore()
+const notificationStore = useNotificationStore()
+const emitter = inject('emitter')
 
 onMounted(() => {
   getProducts()
@@ -57,11 +60,16 @@ async function deleteProduct(id) {
 
   try {
     await productsStore.deleteProduct(id)
+    notificationStore.setNotification('Product deleted successfully!')
+    emitter.emit('notify')
+    getProducts()
   } catch (error) {
-    console.log(error)
+    // console.log(error)
+    notificationStore.setNotification(
+      'We encountered a problem deleting the product. Please try again'
+    )
+    emitter.emit('notify')
   }
-
-  getProducts()
 }
 const emit = defineEmits(['editClicked'])
 async function editProduct(product) {
@@ -79,7 +87,7 @@ async function editProduct(product) {
         <select
           name="perPage"
           id="perPage"
-          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:max-w-xs sm:text-sm sm:leading-6"
           @change="getProducts(null)"
           v-model="perPage"
         >
@@ -143,7 +151,7 @@ async function editProduct(product) {
         <tbody v-if="loading">
           <tr>
             <td colspan="5" class="py-4">
-              <TheSpinner class="mx-auto !text-indigo-500" />
+              <TheSpinner class="mx-auto !text-blue-500" />
             </td>
           </tr>
         </tbody>
@@ -159,66 +167,52 @@ async function editProduct(product) {
             <td class="p-2">{{ product.price }}</td>
             <td class="p-2">{{ product.updated_at }}</td>
             <td class="text-center">
-              <Menu as="div" class="relative inline-block text-left">
-                <div>
-                  <MenuButton>
-                    <EllipsisVerticalIcon
-                      class="h-5 w-5 text-gray-400 transition-all hover:text-indigo-600"
-                    />
-                  </MenuButton>
+              <DropdownMenu width="7rem">
+                <div class="flex items-center">
+                  <EllipsisVerticalIcon
+                    class="h-5 w-5 text-gray-400 transition-all hover:text-blue-600"
+                  />
                 </div>
-
-                <transition
-                  enter-active-class="transition duration-100 ease-out"
-                  enter-from-class="transform scale-95 opacity-0"
-                  enter-to-class="transform scale-100 opacity-100"
-                  leave-active-class="transition duration-75 ease-in"
-                  leave-from-class="transform scale-100 opacity-100"
-                  leave-to-class="transform scale-95 opacity-0"
-                >
-                  <MenuItems
-                    class="absolute right-0 z-50 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
-                  >
-                    <div class="px-1 py-1">
-                      <MenuItem v-slot="{ active }">
-                        <button
-                          @click="editProduct(product)"
-                          :class="[
-                            active ? 'bg-indigo-100 text-indigo-500' : 'text-gray-900',
-                            'group flex w-full items-center rounded-md px-2 py-2 text-sm'
-                          ]"
-                        >
-                          <PencilSquareIcon
-                            :active="active"
-                            class="mr-2 h-5 w-5 text-indigo-500"
-                            aria-hidden="true"
-                          />
-                          Edit
-                        </button>
-                      </MenuItem>
-                    </div>
-                    <div class="px-1 py-1">
-                      <MenuItem v-slot="{ active }">
-                        <button
-                          :class="[
-                            active ? 'bg-indigo-100 text-red-500' : 'text-gray-900',
-                            'group flex w-full items-center rounded-md px-2 py-2 text-sm'
-                          ]"
-                          @click="deleteProduct(product.id)"
-                        >
-                          <TrashIcon
-                            :active="active"
-                            class="mr-2 h-5 w-5 text-indigo-500"
-                            aria-hidden="true"
-                            :class="{ 'text-red-500': active }"
-                          />
-                          Delete
-                        </button>
-                      </MenuItem>
-                    </div>
-                  </MenuItems>
-                </transition>
-              </Menu>
+                <template #items>
+                  <div class="px-1 py-1">
+                    <MenuItem v-slot="{ active }">
+                      <button
+                        @click="editProduct(product)"
+                        :class="[
+                          active ? 'bg-blue-100 text-blue-500' : 'text-gray-900',
+                          'group flex w-full items-center rounded-md px-2 py-2 text-sm'
+                        ]"
+                      >
+                        <PencilSquareIcon
+                          :active="active"
+                          class="mr-2 h-5 w-5 text-blue-500"
+                          aria-hidden="true"
+                        />
+                        Edit
+                      </button>
+                    </MenuItem>
+                  </div>
+                  <div class="px-1 py-1">
+                    <MenuItem v-slot="{ active }">
+                      <button
+                        :class="[
+                          active ? 'bg-red-100 text-red-500' : 'text-gray-900',
+                          'group flex w-full items-center rounded-md px-2 py-2 text-sm'
+                        ]"
+                        @click="deleteProduct(product.id)"
+                      >
+                        <TrashIcon
+                          :active="active"
+                          class="mr-2 h-5 w-5 text-red-500"
+                          aria-hidden="true"
+                          :class="{ 'text-red-500': active }"
+                        />
+                        Delete
+                      </button>
+                    </MenuItem>
+                  </div>
+                </template>
+              </DropdownMenu>
             </td>
           </tr>
         </tbody>
@@ -243,7 +237,7 @@ async function editProduct(product) {
             class="relative inline-flex items-center whitespace-nowrap border px-4 py-2 text-sm font-medium"
             :class="[
               link.active
-                ? 'z-10 border-indigo-500 bg-indigo-50 text-indigo-600'
+                ? 'z-10 border-blue-500 bg-blue-50 text-blue-600'
                 : 'border-gray-300 bg-white text-gray-500 hover:bg-gray-50',
               !link.url ? 'cursor-not-allowed bg-gray-100 text-gray-700 hover:bg-white' : '',
               i === 0 ? 'rounded-l-md' : '',

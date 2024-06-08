@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\User\UserProductController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-    Route::apiResource('/products', ProductController::class);
+    Route::apiResource('/admin/products', ProductController::class);
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -26,4 +27,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 
-// Route::post('login', [AuthController::class, 'login'])->middleware('guest');
+Route::get('/products', [UserProductController::class, 'index']);

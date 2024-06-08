@@ -1,13 +1,16 @@
 <script setup>
+import { ref, onUpdated, inject } from 'vue'
+import { useProductsStore } from '@/stores/products'
 import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
+import { useNotificationStore } from '@/stores/notification'
 import BaseInput from '@/components/core/BaseInput.vue'
 import BaseInputFile from '@/components/core/BaseInputFile.vue'
 import BaseTextarea from '@/components/core/BaseTextarea.vue'
-import { ref, onUpdated } from 'vue'
-import { useProductsStore } from '@/stores/products'
 import TheSpinner from '@/components/core/TheSpinner.vue'
 
 const productStore = useProductsStore()
+const notificationStore = useNotificationStore()
+const emitter = inject('emitter')
 
 const isVisible = defineModel()
 const loading = ref(false)
@@ -40,11 +43,20 @@ async function createProduct() {
   try {
     await productStore.createProduct(product.value)
     productStore.getProducts()
-    closeModal()
     loading.value = false
+    notificationStore.setNotification('Product created successfully!')
+    emitter.emit('notify')
+    closeModal()
   } catch (error) {
     errors.value = error.response.data.errors
     loading.value = false
+    if (!errors.value) {
+      notificationStore.setNotification(
+        "Something went wrong. We couldn't create the product. Please try again",
+        'error'
+      )
+      emitter.emit('notify')
+    }
   } finally {
     loading.value = false
   }
@@ -55,11 +67,20 @@ async function updateProduct() {
   try {
     await productStore.updateProduct({ ...product.value })
     productStore.getProducts()
-    closeModal()
     loading.value = false
+    notificationStore.setNotification('Product details updated successfully!')
+    emitter.emit('notify')
+    closeModal()
   } catch (error) {
     errors.value = error.response.data.errors
     loading.value = false
+    if (!errors.value) {
+      notificationStore.setNotification(
+        'We encountered an issue updating your product. Please try again.',
+        'error'
+      )
+      emitter.emit('notify')
+    }
   } finally {
     loading.value = false
   }
@@ -138,14 +159,14 @@ async function updateProduct() {
                   <div class="mt-4 flex gap-2">
                     <button
                       type="submit"
-                      class="inline-flex justify-center gap-2 rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2"
+                      class="inline-flex justify-center gap-2 rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
                     >
                       <TheSpinner v-if="loading" />
                       {{ action === 'create' ? 'Create' : 'Update' }}
                     </button>
                     <button
                       type="button"
-                      class="inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-900 hover:bg-indigo-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+                      class="inline-flex justify-center rounded-md border border-transparent bg-gray-200 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
                       @click="closeModal"
                     >
                       Cancel

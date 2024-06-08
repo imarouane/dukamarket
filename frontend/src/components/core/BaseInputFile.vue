@@ -35,7 +35,7 @@ const handleFileChange = (event) => {
       :id="name"
       @change="handleFileChange"
       accept="image/*"
-      class="block w-full rounded-full text-sm text-slate-500 file:mr-3 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-800 hover:file:bg-indigo-100 focus:outline-blue-700"
+      class="block w-full rounded-full text-sm text-gray-600 file:mr-3 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-600 hover:file:bg-blue-100 focus:outline-blue-700"
     />
   </div>
 </template>
