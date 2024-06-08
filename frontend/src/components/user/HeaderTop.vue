@@ -8,9 +8,10 @@ import {
   UserIcon,
   HeartIcon,
   ShoppingBagIcon,
-  MagnifyingGlassIcon,
-  ArrowLeftEndOnRectangleIcon
+  MagnifyingGlassIcon
 } from '@heroicons/vue/24/outline'
+import { MenuItem } from '@headlessui/vue'
+import DropdownMenu from '@/components/core/DropdownMenu.vue'
 import { storeToRefs } from 'pinia'
 
 const emitter = inject('emitter')
@@ -56,28 +57,11 @@ async function logout() {
       <!-- header action -->
       <div class="max-md:mt-4 md:col-span-4 md:col-start-9">
         <ul class="flex justify-between gap-6 md:justify-end lg:gap-4">
-          <li v-if="!isLoggedIn">
+          <li>
             <router-link
-              :to="{ name: 'login' }"
+              :to="{ name: 'wishlist' }"
               class="group flex gap-2 transition-all hover:text-yellow-500"
             >
-              <UserIcon class="size-8 sm:size-9 lg:size-7 xl:size-8" />
-              <span class="flex flex-col justify-center text-nowrap text-sm font-medium">
-                <span class="text-xs text-gray-300 group-hover:text-yellow-500">Login</span>
-                Account
-              </span>
-            </router-link>
-          </li>
-          <li v-else>
-            <button
-              class="group flex items-center justify-center gap-1 transition-all hover:text-yellow-500"
-            >
-              <UserIcon class="size-8 sm:size-9 lg:size-7 xl:size-8" />
-              <span class="text-nowrap text-sm font-medium">Account</span>
-            </button>
-          </li>
-          <li>
-            <router-link to="/" class="group flex gap-2 transition-all hover:text-yellow-500">
               <div class="relative">
                 <HeartIcon class="size-8 sm:size-9 lg:size-7 xl:size-8" />
                 <span
@@ -92,7 +76,10 @@ async function logout() {
             </router-link>
           </li>
           <li>
-            <router-link to="/" class="group flex gap-2 transition-all hover:text-yellow-500">
+            <router-link
+              :to="{ name: 'cart' }"
+              class="group flex gap-2 transition-all hover:text-yellow-500"
+            >
               <div class="relative">
                 <ShoppingBagIcon class="size-8 sm:size-9 lg:size-7 xl:size-8" />
                 <span
@@ -107,12 +94,55 @@ async function logout() {
               >
             </router-link>
           </li>
-          <li>
-            <button title="Logout" @click="logout" v-if="isLoggedIn">
-              <ArrowLeftEndOnRectangleIcon
-                class="size-8 text-red-500 sm:size-9 lg:size-7 xl:size-8"
-              />
-            </button>
+          <li v-if="!isLoggedIn">
+            <router-link
+              :to="{ name: 'login' }"
+              class="group flex gap-2 transition-all hover:text-yellow-500"
+            >
+              <UserIcon class="size-8 sm:size-9 lg:size-7 xl:size-8" />
+              <span class="flex flex-col justify-center text-nowrap text-sm font-medium">
+                <span class="text-xs text-gray-300 group-hover:text-yellow-500">Login</span>
+                Account
+              </span>
+            </router-link>
+          </li>
+          <li v-else>
+            <DropdownMenu>
+              <div
+                class="group flex items-center justify-center gap-1 transition-all hover:text-yellow-500"
+              >
+                <UserIcon class="size-8 sm:size-9 lg:size-7 xl:size-8" />
+                <span class="text-nowrap text-sm font-medium">Account</span>
+              </div>
+              <template #items>
+                <div class="px-1 py-1">
+                  <MenuItem v-slot="{ active }">
+                    <button
+                      :class="[
+                        active ? 'bg-yellow-500 text-white' : 'text-gray-900',
+                        'group flex w-full items-center rounded-md px-2 py-2 text-sm'
+                      ]"
+                    >
+                      My Account
+                    </button>
+                  </MenuItem>
+                </div>
+                <div class="px-1 py-1">
+                  <MenuItem v-slot="{ active }">
+                    <button
+                      :class="[
+                        active ? 'bg-red-500 text-white' : 'text-gray-900',
+                        'group flex w-full items-center rounded-md px-2 py-2 text-sm'
+                      ]"
+                      @click="logout"
+                      v-if="isLoggedIn"
+                    >
+                      Sign out
+                    </button>
+                  </MenuItem>
+                </div>
+              </template>
+            </DropdownMenu>
           </li>
         </ul>
       </div>

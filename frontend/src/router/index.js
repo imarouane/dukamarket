@@ -80,9 +80,19 @@ const routes = [
     }
   },
   {
+    path: '/wishlist',
+    name: 'wishlist',
+    component: () => import('@/views/user/WishlistView.vue')
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: () => import('@/views/user/CartView.vue')
+  },
+  {
     path: '/:pathMatch(.*)',
     name: 'notFound',
-    component: () => import('@/views/NotFound.vue')
+    component: () => import('@/views/NotFoundView.vue')
   }
 ]
 
@@ -100,7 +110,7 @@ router.beforeEach((to, from, next) => {
   } else if (to.meta.requiresAdmin && !isAdmin) {
     next({ name: 'home' })
   } else if (to.meta.requiresGuest && isAdmin && isLoggedIn) {
-    next({name: 'app.dashboard'})
+    next({ name: 'app.dashboard' })
   } else if (to.meta.requiresGuest && isLoggedIn) {
     next({ name: 'home' })
   } else {

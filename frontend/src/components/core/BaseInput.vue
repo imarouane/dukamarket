@@ -9,7 +9,8 @@ const { name, label, append, errorMsg } = defineProps({
   },
   name: {
     type: String,
-    require: true
+    require: true,
+    default: 'text'
   },
   append: String,
   errorMsg: String
@@ -25,9 +26,9 @@ const inputClasses = computed(() => {
 </script>
 
 <template>
-  <label v-if="label" :for="name" class="mb-2 block font-medium leading-6 text-gray-900"
-    >{{ label }}</label
-  >
+  <label v-if="label" :for="name" class="mb-2 block font-medium leading-6 text-gray-900">{{
+    label
+  }}</label>
   <div class="relative mt-1" :class="{ 'flex items-center': append }">
     <input v-bind="$attrs" v-model="model" :name="name" :id="name" :class="inputClasses" />
     <span
