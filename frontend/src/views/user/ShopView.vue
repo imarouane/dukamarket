@@ -44,8 +44,8 @@ const displayedLabel = (label) => {
   <div class="container mx-auto py-10">
     <h2 class="mb-4 text-2xl font-semibold text-gray-800">Shop</h2>
     <div class="mx-auto px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
-      <div v-if="loading">
-        <TheSpinner class="mx-auto !text-blue-500 sm:h-6 sm:w-6" />
+      <div class="absolute inset-0 grid h-full w-full place-items-center" v-if="loading">
+        <TheSpinner class="!text-blue-500 sm:h-6 sm:w-6" />
       </div>
       <div v-else>
         <div
@@ -76,7 +76,7 @@ const displayedLabel = (label) => {
             link.active
               ? 'z-10 border-blue-500 bg-blue-500 text-white'
               : 'border-gray-300 bg-white text-gray-500 hover:bg-gray-50',
-            !link.url ? 'hidden' : '',
+            !link.url ? 'hidden' : ''
           ]"
         >
           <component

@@ -31,7 +31,9 @@ const displayedTitle = computed(() => {
     <div class="mt-4 flex justify-between gap-1">
       <div>
         <h3 class="text-sm text-gray-700">
-          <router-link :to="{ name: 'productDetails', params: { slug: product.slug } }">
+          <router-link
+            :to="{ name: 'productDetails', params: { id: product.id, slug: product.slug } }"
+          >
             <span aria-hidden="true" class="absolute inset-0" />
             {{ displayedTitle }}
           </router-link>

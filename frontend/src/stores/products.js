@@ -55,7 +55,7 @@ export const useProductsStore = defineStore('product', {
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data'
-        },
+        }
       }
 
       return axiosClient.post('admin/products', product, config)
@@ -67,6 +67,10 @@ export const useProductsStore = defineStore('product', {
 
     getProduct(id) {
       return axiosClient.get(`admin/products/${id}`)
+    },
+
+    getProductDetails(id) {
+      return axiosClient.get(`/products/${id}`)
     },
 
     updateProduct(product) {

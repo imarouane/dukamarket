@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Http\Resources\UserProductListResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -24,5 +25,10 @@ class UserProductController extends Controller
         }
 
         return UserProductListResource::collection($query->paginate($perPage));
+    }
+
+    public function show(Product $product)
+    {
+        return new ProductResource($product);
     }
 }
