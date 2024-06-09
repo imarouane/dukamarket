@@ -30,7 +30,7 @@ function getProducts(url = null) {
 
 const { productsData: products, loading } = storeToRefs(productsStore)
 
-function getProductsForPage(event, link) {
+function getProductsForPage(link) {
   if (!link.url || link.active) {
     return
   }
@@ -225,14 +225,14 @@ async function editProduct(product) {
 
         <nav
           v-if="productsStore.total > productsStore.per_page"
-          class="-space-x-psx relative z-0 inline-flex justify-center rounded-md shadow-sm"
+          class="relative z-0 inline-flex justify-center rounded-md shadow-sm"
           aria-label="Pagination"
         >
           <button
             v-for="(link, i) of productsStore.links"
             :key="i"
             :disabled="!link.url"
-            @click.prevent="getProductsForPage($event, link)"
+            @click.prevent="getProductsForPage(link)"
             :aria-current="link.active ? 'page' : ''"
             class="relative inline-flex items-center whitespace-nowrap border px-4 py-2 text-sm font-medium"
             :class="[

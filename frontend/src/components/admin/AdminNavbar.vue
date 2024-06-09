@@ -11,6 +11,7 @@ import { storeToRefs } from 'pinia'
 const emitter = inject('emitter')
 const userStore = useUserStore()
 const router = useRouter()
+
 async function logout() {
   const { success, error } = await userStore.logout()
   if (success) {
@@ -50,7 +51,7 @@ defineEmits(['toggleSidebar'])
             <MenuItem v-slot="{ active }">
               <button
                 :class="[
-                  active ? 'bg-yellow-500 text-white' : 'text-gray-900',
+                  active ? 'bg-blue-100 text-blue-500' : 'text-gray-900',
                   'group flex w-full items-center rounded-md px-2 py-2 text-sm'
                 ]"
               >
@@ -62,7 +63,7 @@ defineEmits(['toggleSidebar'])
             <MenuItem v-slot="{ active }">
               <button
                 :class="[
-                  active ? 'bg-red-500 text-white' : 'text-gray-900',
+                  active ? 'bg-red-100 text-red-500' : 'text-gray-900',
                   'group flex w-full items-center rounded-md px-2 py-2 text-sm'
                 ]"
                 @click="logout"

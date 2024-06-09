@@ -35,7 +35,6 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, userData)
 async function login() {
   const isFormValid = await v$.value.$validate()
-  console.log(isFormValid)
   if (isFormValid) {
     isLoading.value = true
     const { success, error } = await userStore.login(userData)

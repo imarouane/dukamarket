@@ -88,14 +88,13 @@ export const useProductsStore = defineStore('product', {
       return axiosClient.post(`admin/products/${id}`, product, config)
     },
 
-    async getUserProducts(url = null, search = '', perPage = 10, sort_field, sort_direction) {
+    async getUserProducts(url = null, search = '', sort_field, sort_direction) {
       this.loading = true
-      url = url || 'admin/products'
+      url = url || '/products'
       try {
         const { data } = await axiosClient(url, {
           params: {
             search,
-            per_page: perPage,
             sort_field,
             sort_direction
           }

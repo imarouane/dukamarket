@@ -54,10 +54,7 @@ export const useUserStore = defineStore('user', () => {
   async function login(userFormData) {
     getToken()
     try {
-      const { data } = await axiosClient.post('/login', userFormData, {
-        withCredentials: true,
-        withXSRFToken: true
-      })
+      const { data } = await axiosClient.post('/login', userFormData)
       const { token, user } = data
 
       sessionStorage.setItem('TOKEN', token)
@@ -81,10 +78,7 @@ export const useUserStore = defineStore('user', () => {
   async function logout() {
     getToken()
     try {
-      await axiosClient.post('/logout', null, {
-        withCredentials: true,
-        withXSRFToken: true
-      })
+      await axiosClient.post('/logout')
 
       userToken.value = null
       userData.value = {}

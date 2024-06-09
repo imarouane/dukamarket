@@ -95,6 +95,12 @@ const routes = [
     component: () => import('@/views/user/ShopView.vue')
   },
   {
+    path: '/product/:slug',
+    name: 'productDetails',
+    component: () => import('@/views/user/ProductDetailsView.vue'),
+    props: (route) => ({ slug: route.params.slug })
+  },
+  {
     path: '/:pathMatch(.*)',
     name: 'notFound',
     component: () => import('@/views/NotFoundView.vue')
@@ -114,19 +120,19 @@ const router = createRouter({
   }
 })
 
-// router.beforeEach((to, from, next) => {
-//   const userStore = useUserStore()
-//   const isLoggedIn = userStore.isLoggedIn
-//   const isAdmin = userStore.isAdmin
-//   if (to.meta.requiresAuth && !isLoggedIn) {
-//     next({ name: 'login' })
-//   } else if (to.meta.requiresAdmin && !isAdmin) {
-//     next({ name: 'home' })
-//   } else if (to.meta.requiresGuest && isLoggedIn) {
-//     next({ name: 'home' })
-//   } else {
-//     next()
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
+  const isLoggedIn = userStore.isLoggedIn
+  const isAdmin = userStore.isAdmin
+  if (to.meta.requiresAuth && !isLoggedIn) {
+    next({ name: 'login' })
+  } else if (to.meta.requiresAdmin && !isAdmin) {
+    next({ name: 'home' })
+  } else if (to.meta.requiresGuest && isLoggedIn) {
+    next({ name: 'home' })
+  } else {
+    next()
+  }
+})
 
 export default router
