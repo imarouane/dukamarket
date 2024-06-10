@@ -42,7 +42,7 @@ const displayedLabel = (label) => {
 <template>
   <TheNavbar />
   <div class="container mx-auto py-10">
-    <h2 class="mb-4 text-2xl font-semibold text-gray-800">Shop</h2>
+    <h2 class="mb-4 px-4 text-2xl font-semibold text-gray-800 sm:px-6">Shop</h2>
     <div class="mx-auto px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
       <div class="absolute inset-0 grid h-full w-full place-items-center" v-if="loading">
         <TheSpinner class="!text-blue-500 sm:h-6 sm:w-6" />
