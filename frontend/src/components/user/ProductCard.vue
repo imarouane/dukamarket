@@ -19,7 +19,7 @@ const displayedTitle = computed(() => {
 <template>
   <div class="group relative">
     <div
-      class="aspect-none flex w-full items-center justify-center overflow-hidden rounded-md bg-gray-200 lg:h-64"
+      class="aspect-none flex w-full items-center justify-center overflow-hidden rounded-md bg-gray-100 lg:h-64"
     >
       <img
         :src="props.product.image_url"

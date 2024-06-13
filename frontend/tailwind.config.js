@@ -10,6 +10,9 @@ export default {
         roboto: ['Roboto', 'sans-serif'],
         manrope: ['Manrope', 'sans-serif']
       },
+      colors: {
+        'yellow-primary': '#fcbe00'
+      },
       keyframes: {
         'fade-in-down': {
           from: {

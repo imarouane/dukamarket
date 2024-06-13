@@ -41,9 +41,9 @@ const displayedLabel = (label) => {
 
 <template>
   <TheNavbar />
-  <div class="container mx-auto py-10">
-    <h2 class="mb-4 px-4 text-2xl font-semibold text-gray-800 sm:px-6">Shop</h2>
-    <div class="mx-auto px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
+  <div class="container mx-auto py-12">
+    <h2 class="px-4 text-2xl font-semibold text-gray-800 sm:px-6">Shop</h2>
+    <div class="mx-auto px-4 py-6 sm:px-6 lg:px-8">
       <div class="absolute inset-0 grid h-full w-full place-items-center" v-if="loading">
         <TheSpinner class="!text-blue-500 sm:h-6 sm:w-6" />
       </div>
@@ -60,7 +60,7 @@ const displayedLabel = (label) => {
         </div>
       </div>
     </div>
-    <div v-if="!loading" class="mt-5">
+    <div v-if="!loading" class="mt-5 px-4 sm:px-6 lg:px-8">
       <nav
         v-if="productsStore.total > productsStore.per_page"
         class="relative z-0 inline-flex justify-center gap-1 rounded-md shadow-sm"
