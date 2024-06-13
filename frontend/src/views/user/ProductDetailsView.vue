@@ -51,23 +51,25 @@ onBeforeMount(async () => {
     <h2 class="px-4 text-2xl font-semibold text-gray-800 sm:px-6">Poduct Detailts</h2>
     <div class="flex flex-col items-start gap-10 px-4 py-6 sm:px-6 lg:flex-row lg:px-8">
       <div class="flex flex-col gap-6 sm:flex-row sm:gap-10 lg:basis-1/2">
-        <div class="mr-6 flex justify-between gap-4 sm:flex-col">
+        <div class="flex justify-between gap-4 sm:mr-6 sm:flex-col">
           <button
-            class="border-yellow-primary flex h-28 w-28 items-center justify-center border bg-gray-100"
+            class="border-yellow-primary flex h-24 items-center justify-center overflow-hidden border bg-gray-100 sm:w-28"
           >
-            <img :src="product.image_url" alt="" />
+            <img :src="product.image_url" alt="" class="h-auto w-full" />
           </button>
-          <button class="flex h-28 w-28 items-center justify-center border bg-gray-100">
-            <img :src="product.image_url" alt="" />
+          <button
+            class="flex h-24 items-center justify-center overflow-hidden border bg-gray-100 sm:w-28"
+          >
+            <img :src="product.image_url" alt="" class="h-auto w-full" />
           </button>
-          <button class="flex h-28 w-28 items-center justify-center border bg-gray-100">
-            <img :src="product.image_url" alt="" />
+          <button
+            class="flex h-24 items-center justify-center overflow-hidden border bg-gray-100 sm:w-28"
+          >
+            <img :src="product.image_url" alt="" class="h-auto w-full" />
           </button>
         </div>
         <div class="flex items-center justify-center bg-gray-100">
-          <figure>
-            <img :src="product.image_url" alt="" />
-          </figure>
+          <img :src="product.image_url" alt="" />
         </div>
       </div>
       <div class="w-full divide-y-2 divide-gray-100 lg:ml-6 lg:basis-1/2">
