@@ -50,7 +50,7 @@ const displayedLabel = (label) => {
       <div v-else>
         <div
           v-if="products.length > 0"
-          class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
+          class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
         >
           <ProductCard v-for="product in products" :key="product.id" :product="product" />
         </div>
@@ -74,7 +74,7 @@ const displayedLabel = (label) => {
           class="relative inline-flex items-center whitespace-nowrap border px-4 py-2 font-medium"
           :class="[
             link.active
-              ? 'z-10 border-blue-500 bg-blue-500 text-white'
+              ? 'z-10 border-yellow-primary bg-yellow-primary text-white'
               : 'border-gray-300 bg-white text-gray-500 hover:bg-gray-50',
             !link.url ? 'hidden' : ''
           ]"

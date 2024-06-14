@@ -18,16 +18,18 @@ const displayedTitle = computed(() => {
 </script>
 
 <template>
-  <div class="group relative">
+  <div class="border-gray-10 group relative flex flex-col rounded-sm border p-4">
     <div
-      class="aspect-none flex w-full items-center justify-center overflow-hidden rounded-md bg-gray-100 p-4 lg:h-64"
+      class="aspect-none flex h-64 w-full items-center justify-center overflow-hidden rounded-md sm:h-64"
     >
-      <img
-        :src="props.product.image_url"
-        :alt="product.title"
-        class="w-full object-cover object-center transition-all duration-300 group-hover:scale-110"
-        loading="lazy"
-      />
+      <router-link :to="{ name: 'productDetails', params: { id: product.id, slug: product.slug } }">
+        <img
+          :src="props.product.image_url"
+          :alt="product.title"
+          class="h-full object-cover object-center transition-all duration-300 group-hover:scale-105"
+          loading="lazy"
+        />
+      </router-link>
     </div>
     <div class="mt-4 flex gap-1">
       <div class="flex w-full flex-col gap-2">
@@ -35,7 +37,6 @@ const displayedTitle = computed(() => {
           <router-link
             :to="{ name: 'productDetails', params: { id: product.id, slug: product.slug } }"
           >
-            <!-- <span aria-hidden="true" class="absolute inset-0" /> -->
             {{ displayedTitle }}
           </router-link>
         </h3>
@@ -53,16 +54,16 @@ const displayedTitle = computed(() => {
           <h5 class="text-lg font-semibold text-gray-900">${{ product.price }}</h5>
           <span>Sold: 10/60</span>
         </div>
-        <div class="flex flex-col gap-2 justify-self-end">
+        <div class="flex gap-2 justify-self-end">
           <button
-            class="bg-yellow-primary text-nowrap px-5 py-2 font-semibold uppercase text-gray-800 transition-all duration-200 hover:bg-yellow-500"
+            class="grow text-nowrap bg-yellow-primary px-5 py-2 font-semibold uppercase text-gray-800 transition-all duration-200 hover:bg-yellow-500"
           >
             Add to cart
           </button>
           <button
             class="flex items-center justify-center gap-2 text-nowrap border border-gray-200 px-5 py-2 font-semibold uppercase text-gray-800 transition-all duration-200 hover:bg-white/80"
           >
-            Add to wishlist <heart-icon class="size-6" />
+            <heart-icon class="size-6" />
           </button>
         </div>
       </div>
