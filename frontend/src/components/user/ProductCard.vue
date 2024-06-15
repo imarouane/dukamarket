@@ -56,12 +56,12 @@ const displayedTitle = computed(() => {
         </div>
         <div class="flex gap-2 justify-self-end">
           <button
-            class="grow text-nowrap bg-yellow-primary px-5 py-2 font-semibold uppercase text-gray-800 transition-all duration-200 hover:bg-yellow-500"
+            class="grow text-nowrap bg-yellow-primary px-2 py-2 font-semibold uppercase text-gray-800 transition-all duration-200 hover:bg-yellow-500"
           >
             Add to cart
           </button>
           <button
-            class="flex items-center justify-center gap-2 text-nowrap border border-gray-200 px-5 py-2 font-semibold uppercase text-gray-800 transition-all duration-200 hover:bg-white/80"
+            class="flex items-center justify-center gap-2 text-nowrap border border-gray-200 px-3 py-2 font-semibold uppercase text-gray-800 transition-all duration-200 hover:bg-white/80"
           >
             <heart-icon class="size-6" />
           </button>

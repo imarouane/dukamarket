@@ -53,7 +53,7 @@ onBeforeMount(async () => {
       <div class="flex flex-col gap-6 sm:flex-row sm:gap-10 lg:basis-1/2">
         <div class="flex justify-between gap-4 sm:mr-6 sm:flex-col">
           <button
-            class="border-yellow-primary flex h-24 items-center justify-center overflow-hidden border bg-gray-100 sm:w-28"
+            class="flex h-24 items-center justify-center overflow-hidden border border-yellow-primary bg-gray-100 sm:w-28"
           >
             <img :src="product.image_url" alt="" class="h-auto w-full" />
           </button>
@@ -73,9 +73,9 @@ onBeforeMount(async () => {
         </div>
       </div>
       <div class="w-full divide-y-2 divide-gray-100 lg:ml-6 lg:basis-1/2">
-        <div class="flex flex-col gap-2 pb-3">
-          <h2 class="text-2xl font-bold text-blue-600">{{ product.title }}</h2>
-          <div>
+        <div class="flex flex-col gap-3 pb-3">
+          <h2 class="text-2xl font-bold leading-7 text-blue-600">{{ product.title }}</h2>
+          <div class="flex items-center gap-4">
             <div class="flex gap-1">
               <StarIcon class="size-5 text-yellow-500" />
               <StarIcon class="size-5 text-yellow-500" />
@@ -84,7 +84,7 @@ onBeforeMount(async () => {
               <!-- <StarIcon class="size-5 text-yellow-500" /> -->
               <EmptyStarIcon class="size-5 text-yellow-500" />
             </div>
-            <span>(12 Reviews)</span>
+            <span class="text-sm font-medium text-gray-400">(12 Reviews)</span>
           </div>
           <h3 class="text-xl font-black">$ {{ product.price }}</h3>
         </div>
@@ -99,10 +99,10 @@ onBeforeMount(async () => {
             <span class="">Availability:</span
             ><span class="rounded bg-sky-200 px-2 py-0.5 text-sm text-sky-400">In Stock</span>
           </div>
-          <div class="flex gap-4">
+          <div class="flex flex-wrap gap-4">
             <ProductCountInput v-model:count="productQuantity" />
             <button
-              class="bg-yellow-primary text-nowrap px-5 py-2 font-semibold uppercase text-gray-800 transition-all duration-200 hover:bg-yellow-500"
+              class="text-nowrap bg-yellow-primary px-5 py-2 font-semibold uppercase text-gray-800 transition-all duration-200 hover:bg-yellow-500"
             >
               Add to cart
             </button>

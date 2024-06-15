@@ -18,7 +18,7 @@ function dec() {
       type="number"
       min="0"
       v-model="count"
-      class="max-w-28 appearance-none border-0 py-0 text-center focus:outline-none focus:outline-offset-0 focus:ring-0"
+      class="max-w-24 appearance-none border-0 py-0 text-center focus:outline-none focus:outline-offset-0 focus:ring-0 sm:max-w-28"
     />
     <button @click="inc()" class="px-1 text-xl font-semibold text-gray-800">+</button>
   </div>
