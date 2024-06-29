@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\User\UserProductController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\User\CarttController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,4 +32,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::controller(UserProductController::class)->group(function () {
     Route::get('/products', 'index');
     Route::get('/products/{product}', 'show');
+});
+
+Route::prefix('/cart')->middleware(['auth:sanctum'])->group(function () {
+    Route::get('/', [CarttController::class, 'index']);
+    Route::post('/add/{product}', [CarttController::class, 'add']);
+    Route::post('/remove/{product}', [CarttController::class, 'remove']);
+    Route::post('/update/{product}', [CarttController::class, 'updateQuantity']);
 });

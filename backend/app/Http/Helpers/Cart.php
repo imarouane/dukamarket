@@ -10,36 +10,32 @@ class Cart extends Controller
     public static function getCartItemsCount(): int
     {
         $request = \request();
-        $user = $request->use();
+        $user = $request->user();
         if ($user) {
             return CartItem::where('user_id', $user->id)->sum('quantity');
-        } else {
-            $cartItems = self::getCookieCartItems();
-            return array_reduce(
-                $cartItems,
-                fn ($carry, $item) => $carry + $item['quantity'],
-                0
-            );
         }
     }
 
     public static function getCartItems()
     {
         $request = \request();
-        $user = $request->use();
+        $user = $request->user();
         if ($user) {
             return CartItem::where('user_id', $user->id)->get()->map(fn ($item) => ['product_id' => $item->product_id, 'quantity' => $item->quantity]);
-        } else {
-            return self::getCookieCartItems();
         }
     }
 
-    public static function getCookieCartItems(): array
-    {
-        $request = \request();
-
-        return json_decode($request->cookie('cart_items', []), true);
-    }
+    // public static function getCookieCartItems(): array
+    // {
+    //     $request = \request();
+    //     $cartItems = $request->cookie('cart_items');
+    //     if (is_string($cartItems)) {
+    //         $cartItems = json_decode($cartItems, true);
+    //     } else {
+    //         $cartItems = [];
+    //     }
+    //     return $cartItems;
+    // }
 
     public static function getCountFromItems($cartItems)
     {
@@ -50,11 +46,10 @@ class Cart extends Controller
         );
     }
 
-    public static function moveCartItemsIntoDb()
+    public static function moveCartItemsIntoDb($cartItems)
     {
         $request = \request();
         $user = $request->user();
-        $cartItems = self::getCookieCartItems();
         $dbCartItems = CartItem::where('user_id', $user->id)->get()->keyBy('product_id');
 
         $newCartItems = [];
@@ -66,7 +61,7 @@ class Cart extends Controller
                 $newCartItems[] = [
                     'user_id' => $user->id,
                     'products_id' => $cartItem['product_id'],
-                    'auentity' => $cartItem['quantity']
+                    'quantity' => $cartItem['quantity']
                 ];
             }
         }

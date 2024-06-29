@@ -51,7 +51,7 @@ class AuthController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         /** @var APP\Models\User $user */
         $user = Auth::user();
         $user->tokens()->delete();
