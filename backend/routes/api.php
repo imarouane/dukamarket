@@ -36,7 +36,14 @@ Route::controller(UserProductController::class)->group(function () {
 
 Route::prefix('/cart')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/', [CarttController::class, 'index']);
-    Route::post('/add/{product}', [CarttController::class, 'add']);
+    Route::post('/add/{product}', [CarttController::class, 'addToCart']);
+    Route::post('/remove/{product}', [CarttController::class, 'remove']);
+    Route::post('/update/{product}', [CarttController::class, 'updateQuantity']);
+});
+
+Route::prefix('/cart/guest')->group(function () {
+    Route::get('/', [CarttController::class, 'index']);
+    Route::post('/add/{product}', [CarttController::class, 'addToGuestCart']);
     Route::post('/remove/{product}', [CarttController::class, 'remove']);
     Route::post('/update/{product}', [CarttController::class, 'updateQuantity']);
 });

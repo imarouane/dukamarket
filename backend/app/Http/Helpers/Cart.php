@@ -14,6 +14,13 @@ class Cart extends Controller
         if ($user) {
             return CartItem::where('user_id', $user->id)->sum('quantity');
         }
+
+        $cartItems = self::getCookieCartItems();
+        return array_reduce(
+            $cartItems,
+            fn ($carry, $item) => $carry + $item['quantity'],
+            0
+        );
     }
 
     public static function getCartItems()
@@ -23,19 +30,14 @@ class Cart extends Controller
         if ($user) {
             return CartItem::where('user_id', $user->id)->get()->map(fn ($item) => ['product_id' => $item->product_id, 'quantity' => $item->quantity]);
         }
+
+        return self::getCookieCartItems();
     }
 
-    // public static function getCookieCartItems(): array
-    // {
-    //     $request = \request();
-    //     $cartItems = $request->cookie('cart_items');
-    //     if (is_string($cartItems)) {
-    //         $cartItems = json_decode($cartItems, true);
-    //     } else {
-    //         $cartItems = [];
-    //     }
-    //     return $cartItems;
-    // }
+    public static function getCookieCartItems(): array
+    {
+        return json_decode(request()->cookie('cart_items', '[]'), true);
+    }
 
     public static function getCountFromItems($cartItems)
     {
@@ -46,18 +48,15 @@ class Cart extends Controller
         );
     }
 
-    public static function moveCartItemsIntoDb($cartItems)
+    public static function moveCartItemsIntoDb()
     {
-        $request = \request();
-        $user = $request->user();
+        $user = request()->user();
+        $cartItems = self::getCookieCartItems();
         $dbCartItems = CartItem::where('user_id', $user->id)->get()->keyBy('product_id');
 
         $newCartItems = [];
-
         foreach ($cartItems as $cartItem) {
-            if (isset($dbCartItems[$cartItem['product_id']])) {
-                continue;
-            } else {
+            if (!isset($dbCartItems[$cartItem['product_id']])) {
                 $newCartItems[] = [
                     'user_id' => $user->id,
                     'products_id' => $cartItem['product_id'],
